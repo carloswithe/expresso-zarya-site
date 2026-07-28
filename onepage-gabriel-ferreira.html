@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabriel Ferreira — Guia do Jogador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Lora:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noite:#0B0A10; --concreto:#1C1824; --nevoa:#8E8A99; --veu:#F6F4FA;
+  --ritual:#5B21B6; --neon:#8B5CF6; --lilas:#C9B8F0;
+  --caixa:rgba(28,24,36,.6); --fio30:rgba(142,138,153,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Lora',serif; background:var(--noite); color:var(--veu); font-size:14px; line-height:1.58;
+  background-image:radial-gradient(ellipse 55% 35% at 82% -6%,rgba(139,92,246,.14),transparent 60%);
+  padding:24px;
+}
+.mono{font-family:'Space Mono',monospace;}
+[contenteditable]{outline:none;}
+[contenteditable]:focus{background:rgba(139,92,246,.10);border-radius:2px;}
+.wrap{max-width:1000px;margin:0 auto;}
+
+.toolbar{
+  position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;
+  background:rgba(11,10,16,.92);backdrop-filter:blur(6px);
+  padding:10px 14px;margin:-24px -24px 22px;border-bottom:1px solid var(--fio30);
+}
+.toolbar .tt{font-family:'Unbounded';font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-right:auto;}
+.toolbar button{
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--concreto);color:var(--veu);border:1px solid var(--neon);padding:8px 12px;cursor:pointer;
+}
+.toolbar button:hover{background:var(--ritual);}
+
+.hero{display:flex;align-items:flex-start;gap:16px;border-bottom:2px solid var(--ritual);padding-bottom:16px;margin-bottom:20px;}
+.hero svg{width:40px;height:40px;flex:0 0 40px;margin-top:4px;}
+.hero .htxt{flex:1;}
+.hero .kicker{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--neon);text-transform:uppercase;}
+.hero h1{font-family:'Unbounded';font-weight:600;font-size:30px;letter-spacing:.06em;margin:4px 0 6px;}
+.hero .concept{font-style:italic;color:var(--lilas);font-size:15px;}
+.hero .tags-count{font-family:'Space Mono',monospace;font-size:10px;color:var(--nevoa);text-align:right;flex:0 0 auto;margin-top:6px;}
+
+.sec-tit{font-family:'Unbounded';font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--veu);
+ margin:24px 0 12px;display:flex;align-items:center;gap:10px;}
+.sec-tit::before{content:"◈";color:var(--neon);font-size:12px;}
+.fio{height:2px;margin:4px 0 16px;
+ background:linear-gradient(to right,var(--ritual) 0%,var(--neon) 55%,rgba(139,92,246,0) 100%);}
+
+.guia{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.gcard{border:1px solid var(--fio30);background:var(--caixa);padding:12px 14px;break-inside:avoid;}
+.gcard h3{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.gcard h3 .ico{font-size:13px;}
+.gcard p{font-size:13px;line-height:1.55;}
+.gcard.wide{grid-column:1 / -1;}
+.intro{border-left:3px solid var(--neon);background:var(--caixa);padding:12px 16px;margin-bottom:6px;font-size:13.5px;font-style:italic;}
+
+.tags-block{margin-bottom:8px;}
+.tags-lead{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+ color:var(--lilas);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--fio30);}
+.tag-item{display:grid;grid-template-columns:180px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--fio30);break-inside:avoid;}
+.tag-item:last-child{border-bottom:none;}
+.tag-name{display:flex;align-items:flex-start;gap:7px;}
+.tag-name .sg{font-family:'Space Mono',monospace;font-weight:700;flex:0 0 auto;}
+.tag-name.pos .sg{color:var(--neon);}
+.tag-name.neg .sg{color:var(--lilas);}
+.tag-name .nm{font-weight:700;font-size:13.5px;}
+.tag-src{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--nevoa);display:block;margin-top:2px;}
+.tag-desc{font-size:12.5px;line-height:1.5;}
+.tag-desc .quando{color:var(--lilas);}
+.tag-desc .quando b{color:var(--neon);font-weight:400;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-right:4px;}
+
+@media print{
+  body{background:#fff;color:#0B0A10;padding:0;background-image:none;font-size:11.5px;}
+  .toolbar{display:none;}
+  @page{size:A4;margin:12mm;}
+  .gcard,.intro{background:#F1EDF9;border-color:rgba(110,106,121,.35);}
+  .hero h1,.sec-tit{color:#0B0A10;}
+  .hero .concept,.tag-desc .quando,.tags-lead{color:#5B21B6;}
+  .tag-name.neg .sg{color:#5B21B6;}
+  .gcard h3{color:#5B21B6;}
+  .tag-item,.gcard{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="toolbar">
+  <span class="tt">◈ Guia do Jogador · Gabriel Ferreira</span>
+  <span class="mono" style="font-size:10px;color:var(--nevoa)">Clique em qualquer texto para editar</span>
+  <button onclick="window.print()">🖨 Imprimir / PDF</button>
+  <button onclick="salvar()">💾 Salvar HTML</button>
+</div>
+
+<div class="hero">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="34" fill="none" stroke="#8B5CF6" stroke-width="2"/>
+    <line x1="50" y1="22" x2="50" y2="78" stroke="#8B5CF6" stroke-width="2"/><line x1="26" y1="50" x2="74" y2="50" stroke="#8B5CF6" stroke-width="2"/><circle cx="50" cy="50" r="14" fill="none" stroke="#8B5CF6" stroke-width="2"/>
+  </svg>
+  <div class="htxt">
+    <div class="kicker" contenteditable="true">Celestial · Arma Juramentada · Líder Religioso · Nível 2</div>
+    <h1 contenteditable="true">Gabriel Ferreira</h1>
+    <div class="concept" contenteditable="true">O ex-noviço que jurou servir ao próprio credor até quitar uma dívida antiga — um voto que carrega mais peso do que ele gostaria de admitir.</div>
+  </div>
+  <div class="tags-count mono" contenteditable="true">9 TAGS +<br>8 TAGS −</div>
+</div>
+
+<div class="sec-tit">Como jogar Gabriel</div>
+<div class="intro" contenteditable="true">Gabriel é grande, quieto e carrega o peso de alguém que já tentou consertar o mundo uma vez e falhou em entender como. Interprete-o como um homem gentil lutando contra a própria indecisão: ele quer fazer o certo, mas o voto que fez o amarra a cumprir ordens, e a linha entre as duas coisas nem sempre é clara. Ele tende a se colocar como protetor de quem estiver mais vulnerável no grupo.</div>
+<div class="guia" contenteditable="true">
+  <div class="gcard"><h3><span class="ico">◈</span> O que ele sente</h3><p>Uma calma treinada por cima de um poço de dúvida. Cada ordem que recebe do próprio credor pesa fisicamente, como se o voto apertasse. Perto de quem precisa de proteção, sente algo parecido com propósito — talvez o primeiro em muito tempo.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> O que ele gosta de fazer</h3><p>Cuidar de quem precisa. Aconselhar, mediar, ser o ombro estável numa sala tensa. Silenciosamente, gosta também de ser útil com as mãos — a arma que carrega não é só um voto, é também um alívio de ter algo concreto a fazer.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> O que ele teme</h3><p>Que cumprir o voto signifique trair a própria consciência — que uma ordem que ele seguiu cegamente se revele algo que ele jamais teria aceitado, se soubesse o preço real.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> Com o que ele se importa</h3><p>Com quem está mais vulnerável ao seu redor, imediatamente e sem cálculo — é o instinto de sentinela falando mais alto que qualquer voto. Importa-se com honrar a palavra dada, mesmo quando ela dói. Importa-se com uma verdade do próprio passado que ainda não conseguiu entender por completo.</p></div>
+  <div class="gcard wide"><h3><span class="ico">◈</span> O que o deixa com raiva</h3><p>Ver alguém vulnerável sendo usado como peça — e ele mesmo, potencialmente, sendo essa peça. Raramente explode; quando isso acontece, é porque a indecisão finalmente virou clareza, e aí ele age com todo o peso da Presença Imponente.</p></div>
+</div>
+
+<div class="sec-tit">As Tags do Gabriel — o que são e quando usar</div>
+<div class="fio"></div>
+<div style="columns:2;column-gap:24px;" contenteditable="true">
+
+  <div class="tags-block" style="break-inside:avoid">
+    <div class="tags-lead">＋ Tags Positivas · geram dados de Ação</div>
+    <div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Vontade de Ferro</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Resiste a manipulação, tortura, medo e influências sobre a mente. <span class="quando"><b>Quando</b> resistir a intimidação, tentação, ou pressão psicológica intensa.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Empático</span><span class="tag-src">Característica · Social</span></span></div>
+      <div class="tag-desc">Compreende a dor e a alegria alheias; as pessoas confiam nele. <span class="quando"><b>Quando</b> consolar alguém abalado, entender o que uma pessoa não está dizendo, mediar um conflito entre partes opostas.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Presença Imponente</span><span class="tag-src">Característica · Física</span></span></div>
+      <div class="tag-desc">Porte físico que enche o ambiente e chama respeito. <span class="quando"><b>Quando</b> impor-se fisicamente sem violência, proteger alguém só por estar entre ela e o perigo.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Diplomata</span><span class="tag-src">Característica · Social · Nível 2</span></span></div>
+      <div class="tag-desc">Acalma ânimos e media conflitos antes que virem violência. <span class="quando"><b>Quando</b> negociar com uma autoridade local, apaziguar uma discussão do grupo, evitar que um confronto vire briga.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Aura de Graça</span><span class="tag-src">Ancestralidade · Celestial</span></span></div>
+      <div class="tag-desc">Uma presença que acalma, inspira e afasta influências malignas. <span class="quando"><b>Quando</b> acalmar alguém em pânico, inspirar confiança, afastar uma influência corruptora.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Toque Restaurador</span><span class="tag-src">Ancestralidade · Celestial</span></span></div>
+      <div class="tag-desc">O dom de curar ferimentos e aliviar males com as próprias mãos. <span class="quando"><b>Quando</b> tratar um ferido, estabilizar alguém à beira da morte, purificar uma corrupção leve.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Postura do Sentinela</span><span class="tag-src">Arquétipo · Arma Juramentada</span></span></div>
+      <div class="tag-desc">Treinado para se colocar entre o perigo e quem protege. <span class="quando"><b>Quando</b> ser o escudo físico de quem está sob sua proteção em qualquer confronto — literalmente ficar no meio.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Arma que Sussurra</span><span class="tag-src">Arquétipo · Arma Juramentada · Nível 2</span></span></div>
+      <div class="tag-desc">Sua arma consagrada reage à mentira nas proximidades. <span class="quando"><b>Quando</b> alguém perto estiver mentindo — a arma alerta, só para ele.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Ritos e Aconselhamento</span><span class="tag-src">Profissão · Líder Religioso</span></span></div>
+      <div class="tag-desc">Anos guiando uma congregação: rituais, escuta, palavras certas na dor. <span class="quando"><b>Quando</b> conduzir ou reconhecer um rito, aconselhar alguém em crise, interpretar linguagem litúrgica.</span></div>
+    </div>
+  </div>
+
+  <div class="tags-block" style="break-inside:avoid">
+    <div class="tags-lead">− Tags Negativas · geram dados de Risco</div>
+    <div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Indeciso</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Trava diante de escolhas; hesita quando precisa agir. <span class="quando"><b>Risco quando</b> a cena exigir decisão rápida e definitiva, especialmente quando dever e consciência puxam para lados opostos.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Submisso</span><span class="tag-src">Característica · Social</span></span></div>
+      <div class="tag-desc">Cede a qualquer pressão; não consegue dizer não. <span class="quando"><b>Risco quando</b> alguém com autoridade sobre ele exigir algo diretamente.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Pesado</span><span class="tag-src">Característica · Física</span></span></div>
+      <div class="tag-desc">O próprio peso atrapalha saltos, escaladas e furtividade. <span class="quando"><b>Risco quando</b> precisar ser rápido, leve ou silencioso.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Farol no Escuro</span><span class="tag-src">Ancestralidade · Celestial</span></span></div>
+      <div class="tag-desc">Sua essência brilha para tudo que é sobrenatural — impossível se esconder. <span class="quando"><b>Risco quando</b> tentar furtividade ou disfarce perto de qualquer criatura ou sentido místico.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Voto Inquebrantável</span><span class="tag-src">Ancestralidade · Celestial</span></span></div>
+      <div class="tag-desc">Servir seu credor sob um voto específico o rege sobrenaturalmente. <span class="quando"><b>Risco quando</b> a situação exigir agir contra uma ordem direta dele — quebrar o voto tem um custo real.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Preso ao Juramento</span><span class="tag-src">Arquétipo · Arma Juramentada</span></span></div>
+      <div class="tag-desc">O voto pesa em toda decisão relevante a ele. <span class="quando"><b>Risco quando</b> o mestre pode usar esta tag para lembrar o custo de desobedecer a palavra dada.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Honra Antes da Razão</span><span class="tag-src">Arquétipo · Arma Juramentada · Nível 2</span></span></div>
+      <div class="tag-desc">Recusa vantagens ou atalhos que considera desonrosos. <span class="quando"><b>Risco quando</b> a cena oferecer uma saída fácil mas moralmente suja — ele hesita ou recusa, mesmo custando caro.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Pacto que Presenciou</span><span class="tag-src">Trauma</span></span></div>
+      <div class="tag-desc">Viu, no passado, algo que não entendeu por completo — uma negociação que não deveria ter presenciado. <span class="quando"><b>Risco quando</b> a cena tocar em pactos, negociações com o oculto ou assinaturas — uma memória antiga volta à tona.</span></div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<script>
+function salvar(){
+  const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'onepage-gabriel-ferreira.html';
+  a.click();
+}
+</script>
+</body>
+</html>

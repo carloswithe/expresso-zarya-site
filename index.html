@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expresso Zarya — A Última Viagem da Chama</title>
+<meta name="description" content="Uma aventura de fantasia sobrenatural para até 6 jogadores, em duas sessões. Vocês devem a Elias Vorona. Hoje ele cobra.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --noite:#0B0A10;
+    --concreto:#1C1824;
+    --nevoa:#8E8A99;
+    --veu:#F6F4FA;
+    --ritual:#5B21B6;
+    --neon:#8B5CF6;
+    --lilas:#C9B8F0;
+    --max-w:1120px;
+    --gap-slide:20px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--noite);
+    color:var(--veu);
+    font-family:'Lora',serif;
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:var(--lilas);}
+  ::selection{background:var(--ritual);color:var(--veu);}
+  :focus-visible{outline:2px solid var(--neon);outline-offset:3px;}
+
+  h1,h2,h3{font-family:'Unbounded',sans-serif;margin:0;line-height:1.15;}
+  h2.titulo{
+    font-size:clamp(1.5rem,4vw,2.1rem);
+    text-transform:uppercase;
+    margin-bottom:1.4rem;
+    letter-spacing:0.01em;
+  }
+  p{margin:0 0 1.1rem;}
+  .mono{font-family:'Space Mono',monospace;}
+  .dim{color:var(--nevoa);}
+
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    font-size:0.72rem;
+    color:var(--neon);
+    display:flex;
+    align-items:center;
+    gap:0.6em;
+    margin-bottom:1.1rem;
+  }
+  .eyebrow::before{
+    content:"";
+    width:1.4em;height:1px;
+    background:var(--neon);
+    display:inline-block;
+    flex:0 0 auto;
+  }
+  .eyebrow.center{justify-content:center;}
+
+  .section{padding:5.5rem 1.5rem;position:relative;}
+  .section-inner{max-width:var(--max-w);margin:0 auto;}
+  .narrow{max-width:720px;margin-left:auto;margin-right:auto;}
+
+  /* ===== Fio do Véu ===== */
+  .fio-veu{
+    display:flex;align-items:center;height:8px;
+    width:100%;max-width:var(--max-w);margin:0 auto;
+  }
+  .fio-veu .solid{
+    flex:0 0 52%;height:1px;
+    background:linear-gradient(to right,var(--ritual),var(--neon));
+  }
+  .fio-veu .dots{
+    flex:1;height:8px;
+    background-image:radial-gradient(circle,var(--neon) 1px,transparent 1.6px);
+    background-size:11px 8px;background-repeat:repeat-x;background-position:left center;
+    -webkit-mask-image:linear-gradient(to right,black,transparent 92%);
+    mask-image:linear-gradient(to right,black,transparent 92%);
+  }
+  .fio-curto{width:120px;margin:0 0 1.6rem;}
+
+  /* ===== Tags ===== */
+  .tag{
+    font-family:'Space Mono',monospace;
+    text-transform:uppercase;
+    font-size:0.68rem;letter-spacing:0.03em;
+    padding:0.34rem 0.65rem;
+    border:1px solid var(--neon);
+    color:var(--veu);
+    display:inline-flex;align-items:center;gap:0.3em;
+    white-space:nowrap;
+  }
+  .tag.neg{background:var(--ritual);border-color:var(--ritual);}
+  .tag .sign{color:var(--neon);font-weight:700;}
+  .tag.neg .sign{color:var(--lilas);}
+
+  /* ===== Botões ===== */
+  .btn{
+    font-family:'Space Mono',monospace;
+    text-transform:uppercase;letter-spacing:0.06em;font-size:0.78rem;
+    padding:0.9rem 1.6rem;
+    border:1px solid var(--neon);
+    background:transparent;color:var(--veu);
+    cursor:pointer;text-decoration:none;
+    display:inline-flex;align-items:center;justify-content:center;gap:0.5em;
+    transition:background .15s ease,color .15s ease;
+  }
+  .btn:hover{background:var(--neon);color:var(--noite);}
+  .btn.primary{background:var(--ritual);border-color:var(--ritual);}
+  .btn.primary:hover{background:var(--neon);border-color:var(--neon);color:var(--noite);}
+  .btn-row{display:flex;gap:1rem;flex-wrap:wrap;}
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;min-height:100svh;
+    display:flex;align-items:flex-end;
+    padding:2rem 1.5rem 4rem;background:var(--noite);
+  }
+  .hero .img-slot{position:absolute;inset:0;z-index:0;border:none;}
+  .hero::after{
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg,rgba(11,10,16,.58) 0%,rgba(11,10,16,.34) 32%,rgba(11,10,16,.94) 92%);
+  }
+  .hero-content{position:relative;z-index:2;max-width:var(--max-w);margin:0 auto;width:100%;}
+  .hero h1{
+    font-size:clamp(2.6rem,8vw,5.2rem);
+    letter-spacing:0.01em;text-transform:uppercase;
+    margin:0.4rem 0 0.2rem;
+  }
+  .hero .deck{
+    font-style:italic;color:var(--lilas);
+    font-size:clamp(1.05rem,2.4vw,1.4rem);
+    margin-bottom:1.4rem;
+  }
+  .hero .lede{max-width:620px;font-size:1.06rem;margin-bottom:1.8rem;}
+  .meta-chips{display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:2rem;}
+  .meta-chip{
+    font-family:'Space Mono',monospace;font-size:0.72rem;
+    text-transform:uppercase;letter-spacing:0.05em;
+    color:var(--nevoa);border:1px solid rgba(142,138,153,.4);
+    padding:0.3rem 0.7rem;
+  }
+
+  /* ===== IMG SLOT ===== */
+  .img-slot{
+    position:relative;
+    background:
+      radial-gradient(120% 140% at 15% 0%,rgba(139,92,246,.22),transparent 55%),
+      linear-gradient(160deg,var(--concreto) 0%,var(--noite) 75%);
+    background-size:cover;background-position:center;
+    overflow:hidden;
+    border:1px solid rgba(139,92,246,.25);
+  }
+  .img-slot::before{
+    content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+  .img-slot.has-image::before{display:none;}
+  .img-slot-placeholder{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:0.8rem;text-align:center;padding:1rem;
+  }
+  .img-slot.has-image .img-slot-placeholder{display:none;}
+  .sigilo{width:44px;height:44px;opacity:.85;}
+  .sigilo *{fill:none;stroke:var(--neon);stroke-width:1.4;}
+  .sigilo .dot{fill:var(--neon);stroke:none;}
+  .img-slot-label{
+    font-family:'Space Mono',monospace;font-size:0.65rem;
+    letter-spacing:0.08em;text-transform:uppercase;color:var(--nevoa);
+  }
+
+  .img-slot-editor{
+    position:absolute;inset:0;display:none;
+    flex-direction:column;align-items:center;justify-content:center;
+    gap:0.55rem;background:rgba(11,10,16,.76);z-index:5;padding:1rem;text-align:center;
+  }
+  body.edit-mode .img-slot-editor{display:flex;}
+  /* a capa fica atrás do gradiente e do texto do hero: em modo edição, sobe */
+  body.edit-mode .hero .img-slot{z-index:4;}
+  body.edit-mode .hero-content{pointer-events:none;}
+  .img-slot-upload-btn{
+    font-family:'Space Mono',monospace;font-size:0.68rem;
+    text-transform:uppercase;letter-spacing:0.05em;
+    background:var(--ritual);color:var(--veu);
+    border:1px solid var(--neon);padding:0.5rem 0.9rem;cursor:pointer;
+  }
+  .img-slot-remove{
+    font-family:'Space Mono',monospace;font-size:0.62rem;text-transform:uppercase;
+    color:var(--nevoa);background:none;border:none;text-decoration:underline;cursor:pointer;
+  }
+  .img-slot-editor summary{
+    font-family:'Space Mono',monospace;font-size:0.6rem;
+    color:var(--nevoa);cursor:pointer;text-transform:uppercase;letter-spacing:0.04em;
+  }
+  .img-slot-prompt{
+    font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--lilas);
+    line-height:1.5;max-height:5.2em;overflow:auto;
+    background:rgba(0,0,0,.35);padding:0.5rem;text-align:left;margin-top:0.4rem;
+  }
+  .img-slot-copy{
+    font-family:'Space Mono',monospace;font-size:0.6rem;text-transform:uppercase;
+    color:var(--neon);background:none;border:1px solid var(--neon);
+    padding:0.25rem 0.5rem;cursor:pointer;margin-top:0.4rem;
+  }
+
+  /* ===== EDITOR ===== */
+  .editor-toggle{
+    position:fixed;right:1rem;bottom:1rem;z-index:50;
+    font-family:'Space Mono',monospace;font-size:0.68rem;
+    text-transform:uppercase;letter-spacing:0.05em;
+    background:var(--concreto);color:var(--lilas);
+    border:1px solid var(--neon);padding:0.6rem 0.9rem;cursor:pointer;
+    opacity:.55;transition:opacity .15s ease;
+  }
+  .editor-toggle:hover{opacity:1;}
+  .editor-panel{
+    position:fixed;right:1rem;bottom:3.6rem;z-index:50;display:none;
+    flex-direction:column;gap:0.6rem;
+    background:var(--concreto);border:1px solid var(--neon);
+    padding:0.9rem;max-width:230px;
+  }
+  body.edit-mode .editor-panel{display:flex;}
+  .editor-panel p{
+    font-family:'Space Mono',monospace;font-size:0.64rem;
+    color:var(--nevoa);margin:0;line-height:1.5;
+  }
+  .editor-panel .btn{width:100%;}
+
+  /* ===== CARTA DO VÉU (dobra 2) ===== */
+  .carta{
+    border:1px solid rgba(139,92,246,.28);
+    background:linear-gradient(165deg,rgba(28,24,36,.9) 0%,rgba(11,10,16,.9) 70%);
+    padding:clamp(1.6rem,5vw,3.2rem);
+    position:relative;
+  }
+  .carta p{font-size:1.06rem;}
+  .carta p:last-of-type{margin-bottom:0;}
+  .carta .abertura{
+    font-size:clamp(1.15rem,3vw,1.5rem);
+    font-style:italic;color:var(--veu);
+    line-height:1.45;margin-bottom:1.6rem;
+  }
+  .carta .fecho{
+    margin-top:2rem;padding-top:1.6rem;
+    border-top:1px solid rgba(139,92,246,.28);
+    font-style:italic;color:var(--lilas);
+    font-size:clamp(1.05rem,2.6vw,1.25rem);
+    line-height:1.5;
+  }
+  .carta .assinatura{
+    font-family:'Space Mono',monospace;font-size:0.66rem;
+    text-transform:uppercase;letter-spacing:0.1em;
+    color:var(--nevoa);margin:1.2rem 0 0;
+  }
+
+  /* ===== A MESA (dobra 3) ===== */
+  .tom-grid{display:flex;flex-wrap:wrap;gap:0.6rem;margin:1.6rem 0 2.2rem;}
+  .aviso{
+    border-left:3px solid var(--neon);background:var(--concreto);
+    padding:1rem 1.3rem;font-size:0.94rem;color:var(--nevoa);
+  }
+  .aviso strong{
+    color:var(--veu);font-family:'Space Mono',monospace;font-size:0.72rem;
+    text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:0.4rem;
+  }
+  .aviso p{margin:0;}
+  .contrato{margin-top:2.6rem;}
+  .contrato-item{
+    border-top:1px solid rgba(142,138,153,.22);
+    padding:1.1rem 0;display:flex;gap:1rem;align-items:flex-start;
+  }
+  .contrato-item:last-child{border-bottom:1px solid rgba(142,138,153,.22);}
+  .contrato-item .clausula{
+    font-family:'Space Mono',monospace;font-size:0.64rem;
+    color:var(--neon);letter-spacing:0.06em;flex:0 0 3.4rem;padding-top:0.25rem;
+  }
+  .contrato-item h4{
+    font-family:'Unbounded',sans-serif;font-size:0.92rem;
+    margin:0 0 0.3rem;font-weight:400;
+  }
+  .contrato-item p{margin:0;font-size:0.94rem;color:var(--nevoa);}
+
+  /* ===== SISTEMA (dobra 4) ===== */
+  .dado{
+    width:2.6rem;height:2.6rem;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Mono',monospace;font-weight:700;font-size:1.15rem;flex:0 0 auto;
+  }
+  .dado.acao{border:2px solid var(--neon);color:var(--veu);}
+  .dado.risco{background:var(--ritual);color:var(--veu);}
+  .dado.anulado{opacity:.28;}
+  .roll-demo{
+    display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;
+    background:var(--concreto);padding:1.5rem;margin:1.8rem 0 1rem;
+  }
+  .roll-group{display:flex;flex-direction:column;gap:0.5rem;align-items:center;}
+  .roll-group .lbl{
+    font-family:'Space Mono',monospace;font-size:0.6rem;
+    text-transform:uppercase;color:var(--nevoa);letter-spacing:0.05em;
+  }
+  .roll-dice{display:flex;gap:0.5rem;}
+  .roll-arrow{font-family:'Space Mono',monospace;color:var(--nevoa);font-size:1.2rem;}
+  .roll-result{
+    font-family:'Space Mono',monospace;font-size:0.74rem;
+    color:var(--lilas);text-transform:uppercase;letter-spacing:0.04em;
+  }
+  .roll-legenda{font-size:0.9rem;color:var(--nevoa);margin-bottom:2rem;}
+
+  .result-table{width:100%;border-collapse:collapse;margin-top:1rem;}
+  .result-table th{
+    font-family:'Space Mono',monospace;text-transform:uppercase;font-size:0.68rem;
+    letter-spacing:0.05em;color:var(--nevoa);text-align:left;
+    padding:0.6rem 0.8rem;border-bottom:1px solid rgba(142,138,153,.3);
+  }
+  .result-table td{
+    padding:0.7rem 0.8rem;font-size:0.94rem;
+    border-bottom:1px solid rgba(142,138,153,.15);vertical-align:top;
+  }
+  .result-table td:first-child{font-family:'Space Mono',monospace;color:var(--neon);white-space:nowrap;}
+
+  /* ===== SLIDER (dobra 5) ===== */
+  .slider{position:relative;overflow:hidden;}
+  .slider-track{
+    display:flex;gap:var(--gap-slide);
+    transition:transform .45s cubic-bezier(.4,0,.2,1);
+    will-change:transform;
+  }
+  .slide{flex:0 0 auto;}
+  .slider-controls{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;margin-top:1.4rem;
+  }
+  .slider-dots{display:flex;gap:0.5rem;}
+  .slider-dots button{
+    width:26px;height:3px;border:none;padding:0;cursor:pointer;
+    background:rgba(142,138,153,.35);transition:background .2s ease;
+  }
+  .slider-dots button[aria-current="true"]{background:var(--neon);}
+  .slider-arrows{display:flex;gap:0.6rem;}
+  .slider-arrows button{
+    width:2.6rem;height:2.6rem;border:1px solid var(--neon);
+    background:transparent;color:var(--veu);cursor:pointer;
+    font-family:'Space Mono',monospace;font-size:0.9rem;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .15s ease,color .15s ease,opacity .15s ease;
+  }
+  .slider-arrows button:hover:not(:disabled){background:var(--neon);color:var(--noite);}
+  .slider-arrows button:disabled{opacity:.25;cursor:default;}
+
+  .card-personagem{background:var(--concreto);border:1px solid rgba(139,92,246,.2);display:flex;flex-direction:column;}
+  .card-personagem .img-slot{aspect-ratio:3/4;border:none;border-bottom:1px solid rgba(139,92,246,.25);}
+  .card-body{padding:1.3rem;display:flex;flex-direction:column;flex:1;}
+  .card-personagem h3{font-size:1.02rem;text-transform:uppercase;letter-spacing:0.01em;}
+  .card-personagem h3 a{color:inherit;text-decoration:none;}
+  .card-personagem h3 a:hover{color:var(--lilas);}
+  .card-ficha{
+    margin-top:1rem;padding-top:0.9rem;
+    border-top:1px solid rgba(139,92,246,.2);
+    font-family:'Space Mono',monospace;font-size:0.68rem;
+    text-transform:uppercase;letter-spacing:0.05em;
+    color:var(--neon);text-decoration:none;
+    display:inline-flex;align-items:center;gap:0.4em;
+  }
+  .card-ficha:hover{color:var(--lilas);}
+  .card-ficha .seta{transition:transform .15s ease;}
+  .card-ficha:hover .seta{transform:translateX(3px);}
+  .card-epiteto{font-style:italic;color:var(--lilas);font-size:0.9rem;margin:0.15rem 0 0.5rem;}
+  .card-linhagem{
+    font-family:'Space Mono',monospace;font-size:0.64rem;
+    text-transform:uppercase;letter-spacing:0.04em;color:var(--nevoa);margin-bottom:0.9rem;
+  }
+  .card-hook{font-size:0.94rem;margin-bottom:1.1rem;flex:1;}
+  .card-tags{display:flex;flex-wrap:wrap;gap:0.4rem;}
+
+  /* ===== ONDE COMEÇA (dobra 6) ===== */
+  .lugar{
+    display:grid;grid-template-columns:1fr;gap:2rem;align-items:start;
+  }
+  .credor{
+    display:grid;grid-template-columns:260px 1fr;gap:2rem;align-items:start;
+    margin-top:3.4rem;padding-top:3rem;border-top:1px solid rgba(142,138,153,.22);
+  }
+  .credor .img-slot{aspect-ratio:3/4;}
+  .credor h3{font-size:1.3rem;text-transform:uppercase;margin-bottom:0.2rem;}
+  .credor .card-epiteto{font-size:1rem;margin-bottom:1rem;}
+  .credor-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.2rem;}
+  .citacao{
+    font-style:italic;color:var(--lilas);font-size:1.05rem;
+    border-left:2px solid var(--neon);padding-left:1.1rem;margin:1.4rem 0;
+  }
+
+  /* ===== PRÁTICO (dobra 7) ===== */
+  .pratico-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:1.8rem;margin-top:1.8rem;
+  }
+  .pratico-item .rotulo{
+    font-family:'Space Mono',monospace;color:var(--neon);font-size:0.66rem;
+    text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:0.5rem;
+  }
+  .pratico-item h4{font-family:'Unbounded',sans-serif;font-size:0.95rem;margin:0 0 0.4rem;font-weight:400;}
+  .pratico-item p{font-size:0.9rem;color:var(--nevoa);margin:0;}
+
+  .faq{margin-top:3rem;}
+  .faq-item{border-top:1px solid rgba(142,138,153,.22);padding:1.2rem 0;}
+  .faq-item:last-child{border-bottom:1px solid rgba(142,138,153,.22);}
+  .faq-item .q{font-family:'Space Mono',monospace;font-size:0.84rem;color:var(--veu);margin-bottom:0.45rem;}
+  .faq-item .a{font-size:0.94rem;color:var(--nevoa);margin:0;}
+
+  /* ===== CTA ===== */
+  .cta-final{
+    background:linear-gradient(160deg,var(--concreto) 0%,var(--noite) 100%);
+    border:1px solid rgba(139,92,246,.25);
+    padding:clamp(1.8rem,5vw,3rem);text-align:center;
+  }
+  .cta-final h2{font-size:clamp(1.5rem,4vw,2.2rem);text-transform:uppercase;margin-bottom:0.9rem;}
+  .cta-final .lede{max-width:520px;margin:0 auto 1.8rem;color:var(--nevoa);}
+  .cta-edit-box{
+    max-width:540px;margin:0 auto 1.8rem;
+    border:1px solid rgba(139,92,246,.45);padding:1rem 1.2rem;
+    font-family:'Space Mono',monospace;font-size:0.76rem;
+    color:var(--lilas);text-align:left;line-height:1.6;
+  }
+  .cta-edit-box b{color:var(--neon);}
+
+  footer{padding:3rem 1.5rem 2.5rem;text-align:center;}
+  footer p{
+    font-family:'Space Mono',monospace;font-size:0.7rem;
+    color:var(--nevoa);letter-spacing:0.04em;margin:1.4rem 0 0;
+  }
+
+  @media (min-width:820px){
+    .lugar{grid-template-columns:1.05fr 1fr;gap:3rem;}
+  }
+  @media (max-width:700px){
+    .section{padding:3.8rem 1.2rem;}
+    .credor{grid-template-columns:1fr;gap:1.4rem;}
+    .credor .img-slot{max-width:240px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .slider-track{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== DOBRA 1 · CAPA ==================== -->
+<header class="hero" id="topo">
+  <div class="img-slot" data-slot="capa">
+    <div class="img-slot-placeholder">
+      <svg class="sigilo" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="20"/><line x1="30" y1="4" x2="30" y2="10"/><line x1="30" y1="50" x2="30" y2="56"/><line x1="4" y1="30" x2="10" y2="30"/><line x1="50" y1="30" x2="56" y2="30"/><circle class="dot" cx="30" cy="30" r="1.6"/></svg>
+      <span class="img-slot-label">Imagem de capa</span>
+    </div>
+    <div class="img-slot-editor">
+      <button class="img-slot-upload-btn" type="button">Adicionar imagem</button>
+      <input type="file" accept="image/*" hidden>
+      <button class="img-slot-remove" type="button">remover</button>
+      <details>
+        <summary>ver prompt sugerido</summary>
+        <div class="img-slot-prompt">A weathered long-distance express train crossing a vast frozen steppe at dawn, seen from a low dramatic angle, steam and snow whipping off the roof, warm lit windows against an immense empty landscape, brooding violet-grey sky, cinematic wide shot, muted palette of black, white and deep purple, atmospheric urban-fantasy book cover style, film grain</div>
+        <button class="img-slot-copy" type="button">copiar prompt</button>
+      </details>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="eyebrow">Fantasia sobrenatural · aventura para até 6 jogadores</div>
+    <h1>Expresso Zarya</h1>
+    <p class="deck">A Última Viagem da Chama</p>
+    <p class="lede">Todos vocês devem alguma coisa a Elias Vorona. Ele nunca cobrou em dinheiro — e agora cobra tudo de uma vez: uma escolta, de Irkutsk até o fim da linha, atravessando o inverno. Se a carga chegar inteira ao destino, as dívidas morrem. Todas.</p>
+    <div class="meta-chips">
+      <span class="meta-chip">até 6 jogadores</span>
+      <span class="meta-chip">5–6 horas · duas sessões</span>
+      <span class="meta-chip">sistema próprio · base Freeform Universal (d6)</span>
+    </div>
+    <div class="btn-row">
+      <a href="#contato" class="btn primary">Quero embarcar</a>
+      <a href="#mundo" class="btn">Conhecer o mundo</a>
+    </div>
+  </div>
+</header>
+
+<div class="fio-veu"><div class="solid"></div><div class="dots"></div></div>
+
+<!-- ==================== DOBRA 2 · O MUNDO ==================== -->
+<section class="section" id="mundo">
+  <div class="section-inner narrow">
+    <div class="eyebrow">O mundo — <!-- EDITAR: nome do cenário, quando decidir --></div>
+    <h2 class="titulo">Nada do que te contaram era verdade completa</h2>
+
+    <div class="carta">
+      <p class="abertura">Mas repare bem: as mentiras que você ouviu nunca foram <em>só</em> mentiras. Toda lenda guarda uma fagulha de verdade — e algumas guardam bem mais do que uma fagulha.</p>
+
+      <p>O mundo que quase todo mundo conhece é fachada. Um teatro montado às pressas, um jogo de cartas marcadas em que ninguém explica as regras porque ninguém deveria estar jogando. O que importa de verdade acontece do outro lado do <strong>véu</strong> — a membrana fina que separa aquilo que se pode explicar daquilo que não se pode.</p>
+
+      <p>Do outro lado há criaturas vorazes e antigas: vampiros que atravessaram séculos, lobisomens que atravessaram famílias inteiras. Há caçadores que deram a vida — a própria e a dos outros — para apagá-los do mapa. Há Ínferos e Féricos disputando território, favor e influência com a paciência de quem tem tempo sobrando. Há Celestiais que caíram e nunca mais subiram. E há coisas que já foram enterradas uma vez e voltaram assim mesmo, espalhando terror por onde passam.</p>
+
+      <p>As autoridades? Algumas foram compradas. Outras sabem exatamente o que existe e preferem que ninguém mais saiba — pânico dá muito mais trabalho que segredo.</p>
+
+      <p>Em certos lugares o véu é fino. Um beco que não devia ter saída, uma estação vazia às três da manhã, um trecho de trilho no meio do nada. Você atravessa e sente na nuca que atravessou.</p>
+
+      <p class="fecho">A maioria das pessoas vai viver e morrer sem nunca desconfiar de nada disso.<br>Você não é uma dessas pessoas. Todos que sentam a esta mesa já foram tocados pelo sobrenatural — cada um do seu jeito, e nenhum de graça.</p>
+      <p class="assinatura">O improvável existe. Só não é assunto público.</p>
+    </div>
+  </div>
+</section>
+
+<div class="fio-veu"><div class="solid"></div><div class="dots"></div></div>
+
+<!-- ==================== DOBRA 3 · A MESA ==================== -->
+<section class="section" id="mesa">
+  <div class="section-inner narrow">
+    <div class="eyebrow">A mesa</div>
+    <h2 class="titulo">Do que é feita esta história</h2>
+    <p>Não é uma aventura de resolver tudo no tapa, nem de rolar dados até o problema sumir. É tensão de espaço fechado, gente mentindo por bons motivos, decisões que custam alguma coisa — e momentos de coragem que valem a noite inteira.</p>
+
+    <div class="tom-grid">
+      <span class="tag"><span class="sign">+</span>Tensão crescente</span>
+      <span class="tag"><span class="sign">+</span>Vínculo inesperado</span>
+      <span class="tag"><span class="sign">+</span>Ação crua</span>
+      <span class="tag"><span class="sign">+</span>Mistério de espaço fechado</span>
+      <span class="tag neg"><span class="sign">−</span>O peso de proteger alguém</span>
+      <span class="tag neg"><span class="sign">−</span>Nenhuma escolha fácil</span>
+    </div>
+
+    <div class="aviso">
+      <strong>Aviso de conteúdo</strong>
+      <p>A história trata de coerção, violência, perda e dilemas morais sem resposta certa. Foi desenhada para uma mesa adulta que gosta de peso dramático. Se algum tema for um limite para você, me avise antes — ajusto sem drama e sem perguntas.</p>
+    </div>
+
+    <div class="contrato">
+      <h3 style="font-size:1.15rem;text-transform:uppercase;margin-bottom:0.4rem;">O contrato da mesa</h3>
+      <p class="dim" style="font-size:0.94rem;">Nesta aventura todo mundo deve alguma coisa a alguém. Aqui está o que eu peço de vocês:</p>
+
+      <div class="contrato-item">
+        <span class="clausula">I</span>
+        <div>
+          <h4>Joguem com a emoção que gostariam de acompanhar</h4>
+          <p>O que faz um personagem valer a pena não está na ficha, está na vontade com que ele é jogado. Tragam alguém que vocês teriam prazer em ver escolhendo o caminho difícil — porque o caminho difícil vai aparecer.</p>
+        </div>
+      </div>
+      <div class="contrato-item">
+        <span class="clausula">II</span>
+        <div>
+          <h4>Construam a história comigo</h4>
+          <p>Aqui não se espera a cena acontecer: se propõe. Uma boa ideia sua muda o rumo da noite, e eu prefiro assim.</p>
+        </div>
+      </div>
+      <div class="contrato-item">
+        <span class="clausula">III</span>
+        <div>
+          <h4>Deixem o holofote circular</h4>
+          <p>Seis pessoas, seis momentos de brilhar. Puxar a cena para si o tempo todo é a única coisa que estraga uma mesa boa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fio-veu"><div class="solid"></div><div class="dots"></div></div>
+
+<!-- ==================== DOBRA 4 · O SISTEMA ==================== -->
+<section class="section" id="sistema">
+  <div class="section-inner narrow">
+    <div class="eyebrow">Como se joga</div>
+    <h2 class="titulo">O sistema em 60 segundos</h2>
+    <p>Sistema próprio, construído sobre a espinha do <strong>Freeform Universal</strong>: só dados de seis faces, nenhuma ficha cheia de números. O que seu personagem é vem escrito em palavras — as <strong>Tags</strong> — e cada teste começa numa conversa.</p>
+    <p>Você diz o que quer fazer e por que deveria dar certo. Eu digo o que está contra você. Aí a gente rola tudo junto.</p>
+
+    <p><strong style="color:var(--veu);">Dados de Ação</strong> <span class="dim">(contorno roxo)</span> — o que joga a seu favor: suas Tags, a posição vantajosa, o equipamento certo.<br>
+    <strong style="color:var(--veu);">Dados de Risco</strong> <span class="dim">(preenchidos)</span> — o que joga contra: escuridão, um ferimento antigo, o chão balançando.</p>
+
+    <p>Cada dado de Risco apaga o maior dado de Ação que conseguir alcançar. O que sobreviver decide o que acontece:</p>
+
+    <div class="roll-demo">
+      <div class="roll-group">
+        <span class="lbl">2 de Ação</span>
+        <div class="roll-dice">
+          <div class="dado acao">6</div>
+          <div class="dado acao anulado">4</div>
+        </div>
+      </div>
+      <span class="roll-arrow" aria-hidden="true">vs</span>
+      <div class="roll-group">
+        <span class="lbl">1 de Risco</span>
+        <div class="roll-dice"><div class="dado risco">5</div></div>
+      </div>
+      <span class="roll-arrow" aria-hidden="true">→</span>
+      <div class="roll-group">
+        <span class="lbl">sobrevive</span>
+        <div class="roll-dice"><div class="dado acao">6</div></div>
+        <span class="roll-result">Sucesso Espetacular</span>
+      </div>
+    </div>
+    <p class="roll-legenda">O Risco tirou 5 — não alcança o 6, então apaga o 4. Sobra o 6, e o 6 é o melhor que pode acontecer.</p>
+
+    <table class="result-table">
+      <tr><th scope="col">Sobreviveu</th><th scope="col">O que acontece</th></tr>
+      <tr><td>6</td><td>Sucesso Espetacular — dá certo, limpo, e ainda sobra alguma coisa boa</td></tr>
+      <tr><td>4–5</td><td>Sucesso Parcial — você consegue, mas paga por isso</td></tr>
+      <tr><td>2–3</td><td>Falha Parcial — não consegue, mas o pior é evitado</td></tr>
+      <tr><td>1</td><td>Falha Crítica — acontece a pior coisa possível ali</td></tr>
+    </table>
+
+    <p style="margin-top:1.8rem;" class="dim">É isso. Fichas prontas, dados na mesa, o resto se aprende jogando.</p>
+  </div>
+</section>
+
+<div class="fio-veu"><div class="solid"></div><div class="dots"></div></div>
+
+<!-- ==================== DOBRA 5 · OS SEIS DEVEDORES ==================== -->
+<section class="section" id="personagens">
+  <div class="section-inner">
+    <div class="eyebrow">Quem você pode ser</div>
+    <h2 class="titulo" style="max-width:640px;">Os seis devedores</h2>
+    <p class="dim" style="max-width:640px;margin-bottom:2.4rem;">Seis fichas prontas, seis dívidas diferentes com o mesmo homem. Escolha quem te chamar mais atenção — o resto já vem escrito.</p>
+
+    <div class="slider" data-slider>
+      <div class="slider-track">
+
+        <!-- Marek -->
+        <article class="slide card-personagem">
+          <div class="img-slot" data-slot="marek">
+            <div class="img-slot-placeholder">
+              <svg class="sigilo" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="20"/><line x1="38" y1="14" x2="46" y2="22"/><line x1="32" y1="16" x2="40" y2="24"/><line x1="26" y1="18" x2="34" y2="26"/></svg>
+              <span class="img-slot-label">Retrato · Marek</span>
+            </div>
+            <div class="img-slot-editor">
+              <button class="img-slot-upload-btn" type="button">Adicionar imagem</button>
+              <input type="file" accept="image/*" hidden>
+              <button class="img-slot-remove" type="button">remover</button>
+              <details><summary>ver prompt sugerido</summary>
+              <div class="img-slot-prompt">Moody character portrait of a rugged Eastern-European soldier in his late 30s, short beard, heavy winter coat over military fatigues, a faint predatory intensity in his eyes, standing in a dim narrow corridor, duotone black and deep violet lighting, single cold purple rim light, illustrative cinematic style, high contrast, subtle film grain, black white and purple palette only</div>
+              <button class="img-slot-copy" type="button">copiar prompt</button></details>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3><a href="onepage-marek-sokolov.html" target="_blank" rel="noopener">Marek Sokolov</a></h3>
+            <p class="card-epiteto">"O Soldado"</p>
+            <p class="card-linhagem">Lobisomem · Caçador · Militar</p>
+            <p class="card-hook">A cidade onde ele nasceu não aparece mais em mapa nenhum. Vorona tirou de lá quem deu para tirar; Marek saiu lutando, por conta própria, e nunca mais parou. Onde ele fecha o punho, alguém precisa segurar o braço.</p>
+            <div class="card-tags">
+              <span class="tag"><span class="sign">+</span>Sangue-Frio</span>
+              <span class="tag"><span class="sign">+</span>Sentidos de Predador</span>
+              <span class="tag neg"><span class="sign">−</span>Visão de Túnel</span>
+            </div>
+            <a class="card-ficha" href="onepage-marek-sokolov.html" target="_blank" rel="noopener">Ver ficha completa <span class="seta">→</span></a>
+          </div>
+        </article>
+
+        <!-- Zofia -->
+        <article class="slide card-personagem">
+          <div class="img-slot" data-slot="zofia">
+            <div class="img-slot-placeholder">
+              <svg class="sigilo" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="20"/><path d="M18,30 Q30,20 42,30 Q30,40 18,30 Z"/><circle class="dot" cx="30" cy="30" r="1.6"/></svg>
+              <span class="img-slot-label">Retrato · Zofia</span>
+            </div>
+            <div class="img-slot-editor">
+              <button class="img-slot-upload-btn" type="button">Adicionar imagem</button>
+              <input type="file" accept="image/*" hidden>
+              <button class="img-slot-remove" type="button">remover</button>
+              <details><summary>ver prompt sugerido</summary>
+              <div class="img-slot-prompt">Moody character portrait of a lean young woman pickpocket with subtly fae features, sharp watchful eyes, fingerless gloves, worn secondhand coat, caught mid-glance over her shoulder in a dim interior, duotone black and violet lighting, faint otherworldly shimmer around her hands, illustrative cinematic style, high contrast, subtle film grain, black white and purple palette only</div>
+              <button class="img-slot-copy" type="button">copiar prompt</button></details>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3><a href="onepage-zofia-lem.html" target="_blank" rel="noopener">Zofia Lem</a></h3>
+            <p class="card-epiteto">"A Dedos"</p>
+            <p class="card-linhagem">Férica · Oráculo · Vigarista</p>
+            <p class="card-hook">Bateu a carteira errada numa estação de Praga e desmaiou na plataforma com o que viu. Vorona não a puniu — só anotou. Lê o passado de tudo que rouba, e é a pior mentirosa que uma vigarista poderia ser.</p>
+            <div class="card-tags">
+              <span class="tag"><span class="sign">+</span>Psicometria</span>
+              <span class="tag"><span class="sign">+</span>Lábia Rápida</span>
+              <span class="tag neg"><span class="sign">−</span>Incapaz de Mentir</span>
+            </div>
+            <a class="card-ficha" href="onepage-zofia-lem.html" target="_blank" rel="noopener">Ver ficha completa <span class="seta">→</span></a>
+          </div>
+        </article>
+
+        <!-- Tomasz -->
+        <article class="slide card-personagem">
+          <div class="img-slot" data-slot="tomasz">
+            <div class="img-slot-placeholder">
+              <svg class="sigilo" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="20"/><line x1="14" y1="34" x2="46" y2="34"/><line x1="20" y1="30" x2="20" y2="38"/><line x1="30" y1="30" x2="30" y2="38"/><line x1="40" y1="30" x2="40" y2="38"/></svg>
+              <span class="img-slot-label">Retrato · Tomasz</span>
+            </div>
+            <div class="img-slot-editor">
+              <button class="img-slot-upload-btn" type="button">Adicionar imagem</button>
+              <input type="file" accept="image/*" hidden>
+              <button class="img-slot-remove" type="button">remover</button>
+              <details><summary>ver prompt sugerido</summary>
+              <div class="img-slot-prompt">Moody character portrait of a disheveled lawyer in his 40s with faint dark markings creeping up from his collar along his neck, loosened tie, expensive coat gone shabby, holding a folded document, cold violet backlight, illustrative cinematic style, high contrast duotone black and purple, subtle film grain, black white and purple palette only</div>
+              <button class="img-slot-copy" type="button">copiar prompt</button></details>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3><a href="onepage-tomasz-reiner.html" target="_blank" rel="noopener">Tomasz Reiner</a></h3>
+            <p class="card-epiteto">"O Advogado Caído"</p>
+            <p class="card-linhagem">Ínfero · Maculado · Advogado</p>
+            <p class="card-hook">Assinou um papel em branco anos atrás, quando a firma afundava e Vorona apareceu com uma caneta. Nunca leu o que aceitou. Negocia de igual para igual com qualquer coisa que use palavras — e algumas dessas coisas não são gente.</p>
+            <div class="card-tags">
+              <span class="tag"><span class="sign">+</span>Escrita de Contrato</span>
+              <span class="tag"><span class="sign">+</span>Negociador</span>
+              <span class="tag neg"><span class="sign">−</span>Preso à Palavra Dada</span>
+            </div>
+            <a class="card-ficha" href="onepage-tomasz-reiner.html" target="_blank" rel="noopener">Ver ficha completa <span class="seta">→</span></a>
+          </div>
+        </article>
+
+        <!-- Vera -->
+        <article class="slide card-personagem">
+          <div class="img-slot" data-slot="vera">
+            <div class="img-slot-placeholder">
+              <svg class="sigilo" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="20"/><path d="M20,40 L30,24 L40,40"/><line x1="30" y1="24" x2="30" y2="40"/></svg>
+              <span class="img-slot-label">Retrato · Vera</span>
+            </div>
+            <div class="img-slot-editor">
+              <button class="img-slot-upload-btn" type="button">Adicionar imagem</button>
+              <input type="file" accept="image/*" hidden>
+              <button class="img-slot-remove" type="button">remover</button>
+              <details><summary>ver prompt sugerido</summary>
+              <div class="img-slot-prompt">Moody character portrait of a bespectacled librarian scholar in her 30s, heavy wool coat, clutching an old book against her chest, loose papers drifting in the air around her, duotone black and violet lighting, illustrative cinematic style, high contrast, subtle film grain, black white and purple palette only</div>
+              <button class="img-slot-copy" type="button">copiar prompt</button></details>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3><a href="onepage-vera-lindqvist.html" target="_blank" rel="noopener">Vera Lindqvist</a></h3>
+            <p class="card-epiteto">"A Estudiosa do Véu"</p>
+            <p class="card-linhagem">Humana · Maga · Bibliotecária</p>
+            <p class="card-hook">Abriu, no acervo restrito onde trabalhava, um livro que olhou de volta. Vorona chegou antes do que estava saindo dele. Sabe tudo sobre o oculto no papel — e é a única a bordo que o oculto não enxerga.</p>
+            <div class="card-tags">
+              <span class="tag"><span class="sign">+</span>Biblioteca Viva</span>
+              <span class="tag"><span class="sign">+</span>Erudita</span>
+              <span class="tag neg"><span class="sign">−</span>Cega para o Oculto</span>
+            </div>
+            <a class="card-ficha" href="onepage-vera-lindqvist.html" target="_blank" rel="noopener">Ver ficha completa <span class="seta">→</span></a>
+          </div>
+        </article>
+
+        <!-- Gabriel -->
+        <article class="slide card-personagem">
+          <div class="img-slot" data-slot="gabriel">
+            <div class="img-slot-placeholder">
+              <svg class="sigilo" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="20"/><line x1="30" y1="6" x2="30" y2="54"/><line x1="22" y1="18" x2="38" y2="18"/></svg>
+              <span class="img-slot-label">Retrato · Gabriel</span>
+            </div>
+            <div class="img-slot-editor">
+              <button class="img-slot-upload-btn" type="button">Adicionar imagem</button>
+              <input type="file" accept="image/*" hidden>
+              <button class="img-slot-remove" type="button">remover</button>
+              <details><summary>ver prompt sugerido</summary>
+              <div class="img-slot-prompt">Moody character portrait of a broad-shouldered former novice monk in his 30s, plain dark coat over a clerical undershirt, a barely visible pale glow behind his head, resting both hands on an antique bayonet held like a walking staff, standing guard in a dim corridor, duotone black and violet lighting, illustrative cinematic style, high contrast, subtle film grain, black white and purple palette only</div>
+              <button class="img-slot-copy" type="button">copiar prompt</button></details>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3><a href="onepage-gabriel-ferreira.html" target="_blank" rel="noopener">Gabriel Ferreira</a></h3>
+            <p class="card-epiteto">"O Ex-Noviço"</p>
+            <p class="card-linhagem">Celestial · Arma Juramentada · Líder Religioso</p>
+            <p class="card-hook">Noviço num seminário que Vorona frequentava antes da queda, jurou servi-lo "até que a chama se apague" — e achou que era só poesia litúrgica. Carrega uma baioneta consagrada que canta baixinho quando há mentira por perto.</p>
+            <div class="card-tags">
+              <span class="tag"><span class="sign">+</span>Aura de Graça</span>
+              <span class="tag"><span class="sign">+</span>Postura do Sentinela</span>
+              <span class="tag neg"><span class="sign">−</span>Voto Inquebrantável</span>
+            </div>
+            <a class="card-ficha" href="onepage-gabriel-ferreira.html" target="_blank" rel="noopener">Ver ficha completa <span class="seta">→</span></a>
+          </div>
+        </article>
+
+        <!-- Sasha -->
+        <article class="slide card-personagem">
+          <div class="img-slot" data-slot="sasha">
+            <div class="img-slot-placeholder">
+              <svg class="sigilo" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="20"/><line x1="30" y1="18" x2="30" y2="42"/><line x1="22" y1="20" x2="38" y2="20"/><path d="M20,38 Q30,48 40,38"/></svg>
+              <span class="img-slot-label">Retrato · Sasha</span>
+            </div>
+            <div class="img-slot-editor">
+              <button class="img-slot-upload-btn" type="button">Adicionar imagem</button>
+              <input type="file" accept="image/*" hidden>
+              <button class="img-slot-remove" type="button">remover</button>
+              <details><summary>ver prompt sugerido</summary>
+              <div class="img-slot-prompt">Moody character portrait of a calm paramedic woman in her 30s, pale skin with faint surgical scarring at the wrists, worn medical jacket, steady unblinking gaze, faint violet mist gathering around her shoulders in a dim interior, duotone black and violet lighting, illustrative cinematic style, high contrast, subtle film grain, black white and purple palette only</div>
+              <button class="img-slot-copy" type="button">copiar prompt</button></details>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3><a href="onepage-sasha-baranova.html" target="_blank" rel="noopener">Sasha Baranova</a></h3>
+            <p class="card-epiteto">"A Que Voltou"</p>
+            <p class="card-linhagem">Reanimada · Receptáculo · Paramédica</p>
+            <p class="card-hook">Morreu numa ambulância capotada há seis anos. Vorona pagou o ritual que a trouxe de volta — e alguma coisa veio junto, como parte de um preço que ele negociou sem consultá-la. Ela deve a existência a ele; ele deve uma explicação a ela.</p>
+            <div class="card-tags">
+              <span class="tag"><span class="sign">+</span>Âncora Estável</span>
+              <span class="tag"><span class="sign">+</span>Corpo Além da Dor</span>
+              <span class="tag neg"><span class="sign">−</span>Cheiro da Sepultura</span>
+            </div>
+            <a class="card-ficha" href="onepage-sasha-baranova.html" target="_blank" rel="noopener">Ver ficha completa <span class="seta">→</span></a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="slider-controls">
+        <div class="slider-dots" role="tablist" aria-label="Navegar entre os personagens"></div>
+        <div class="slider-arrows">
+          <button type="button" data-dir="-1" aria-label="Personagem anterior">←</button>
+          <button type="button" data-dir="1" aria-label="Próximo personagem">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fio-veu"><div class="solid"></div><div class="dots"></div></div>
+
+<!-- ==================== DOBRA 6 · ONDE COMEÇA ==================== -->
+<section class="section" id="comeco">
+  <div class="section-inner">
+    <div class="eyebrow">Onde começa</div>
+    <h2 class="titulo" style="max-width:700px;">Plataforma 2 · Irkutsk · 05h40</h2>
+
+    <div class="lugar">
+      <div>
+        <p>A plataforma cheira a diesel queimado, neve suja e ferro gelado — o tipo de frio que morde os dedos através da luva e faz cada respiração sair como fumaça de cigarro. O alto-falante rosna alguma coisa em russo que ninguém entende inteira, mas o número é claro: partida em três minutos.</p>
+        <p>Vocês seis chegam de direções diferentes e convergem para o mesmo ponto. Não se conhecem, ou mal se conhecem. Mas todos reconhecem, com aquele aperto atrás do esterno, o homem de casaco preto parado à espera — e sabem exatamente por que foram chamados.</p>
+        <p class="dim">É aqui que a história abre. Sem briefing, sem tempo, sem escolha: o trem parte em três minutos e vocês vão nele.</p>
+      </div>
+
+      <div class="img-slot" style="aspect-ratio:4/3;" data-slot="irkutsk">
+        <div class="img-slot-placeholder">
+          <svg class="sigilo" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="20"/><line x1="12" y1="38" x2="48" y2="38"/><line x1="18" y1="42" x2="42" y2="42"/><line x1="30" y1="14" x2="30" y2="34"/></svg>
+          <span class="img-slot-label">A plataforma</span>
+        </div>
+        <div class="img-slot-editor">
+          <button class="img-slot-upload-btn" type="button">Adicionar imagem</button>
+          <input type="file" accept="image/*" hidden>
+          <button class="img-slot-remove" type="button">remover</button>
+          <details><summary>ver prompt sugerido</summary>
+          <div class="img-slot-prompt">Empty night railway platform in deep Siberian winter, steam rising between an old long-distance train and failing sodium lamps, snow drifting sideways, no people in frame, cold cyan and sodium-orange light with deep purple shadows, cinematic thriller composition, wide shot, 35mm film look, black white and purple palette</div>
+          <button class="img-slot-copy" type="button">copiar prompt</button></details>
+        </div>
+      </div>
+    </div>
+
+    <!-- O CREDOR -->
+    <div class="credor">
+      <div class="img-slot" data-slot="vorona">
+        <div class="img-slot-placeholder">
+          <svg class="sigilo" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="20"/><path d="M20,26 L30,34 L40,26"/><path d="M24,36 L30,40 L36,36"/></svg>
+          <span class="img-slot-label">Retrato · Vorona</span>
+        </div>
+        <div class="img-slot-editor">
+          <button class="img-slot-upload-btn" type="button">Adicionar imagem</button>
+          <input type="file" accept="image/*" hidden>
+          <button class="img-slot-remove" type="button">remover</button>
+          <details><summary>ver prompt sugerido</summary>
+          <div class="img-slot-prompt">Moody character portrait of a severe man in his late sixties, black clerical coat without a collar, a burn scar climbing from his neck to his left ear, gloved hands, a signet ring bearing a bird, unreadable expression, standing in falling snow at night, duotone black and deep violet lighting, illustrative cinematic style, high contrast, subtle film grain, black white and purple palette only</div>
+          <button class="img-slot-copy" type="button">copiar prompt</button></details>
+        </div>
+      </div>
+
+      <div>
+        <div class="fio-veu fio-curto"><div class="solid"></div><div class="dots"></div></div>
+        <p class="mono" style="font-size:0.66rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--neon);margin-bottom:0.6rem;">O credor</p>
+        <h3>Elias Vorona</h3>
+        <p class="card-epiteto">"O Corvo"</p>
+        <p>Sessenta e muitos anos, casaco clerical preto sem colarinho, uma cicatriz de queimadura subindo do pescoço até a orelha esquerda. Voz baixa que ninguém pede para repetir. Ex-padre excomungado que descobriu o véu tarde demais e caro demais.</p>
+        <p>Hoje ele coleciona dívidas dos dois lados do véu — dinheiro, favores, votos, vidas. Não ameaça, não levanta a voz, não precisa. Vorona cobra quando decide cobrar, e quem deve sempre sabe que deve.</p>
+        <p class="citacao">"Vocês devem. Eu cobro. É toda a teologia de que precisam hoje."</p>
+        <p class="dim" style="font-size:0.94rem;">O que cada personagem deve a ele é diferente — sangue, dinheiro, silêncio, um favor em branco, um voto perpétuo, a própria segunda vida. Essa dívida é o seu gancho pessoal na história, e ela vem escrita na sua ficha.</p>
+        <div class="credor-tags">
+          <span class="tag"><span class="sign">+</span>Palavra que Amarra</span>
+          <span class="tag"><span class="sign">+</span>Olhos em Toda Parte</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fio-veu"><div class="solid"></div><div class="dots"></div></div>
+
+<!-- ==================== DOBRA 7 · ANTES DE EMBARCAR ==================== -->
+<section class="section" id="pratico">
+  <div class="section-inner narrow">
+    <div class="eyebrow">Antes de embarcar</div>
+    <h2 class="titulo">Como a mesa funciona</h2>
+
+    <div class="pratico-grid">
+      <div class="pratico-item">
+        <span class="rotulo">Duração</span>
+        <h4>5 a 6 horas</h4>
+        <p>Divididas em duas sessões de cerca de três horas.</p>
+      </div>
+      <div class="pratico-item">
+        <span class="rotulo">Quando</span>
+        <h4>Sextas à noite</h4>
+        <p>As datas exatas eu combino com quem confirmar.</p>
+      </div>
+      <div class="pratico-item">
+        <span class="rotulo">Vagas</span>
+        <h4>Até 6 lugares</h4>
+        <p>A história roda bem com menos gente também.</p>
+      </div>
+      <div class="pratico-item">
+        <span class="rotulo">O que trazer</span>
+        <h4>Só a vontade</h4>
+        <p>Fichas e dados são por minha conta.</p>
+      </div>
+    </div>
+
+    <div class="faq">
+      <div class="faq-item">
+        <p class="q">Preciso ter jogado RPG antes?</p>
+        <p class="a">Não. O sistema foi feito para ser aprendido na primeira rolagem, e eu explico tudo na hora. Se esta for a sua estreia, é uma boa estreia.</p>
+      </div>
+      <div class="faq-item">
+        <p class="q">Posso escolher meu personagem?</p>
+        <p class="a">Pode. Os seis acima são as opções da mesa, cada um com passado, dívida e motivação já escritos. Escolha por afinidade — quem te deu vontade de interpretar.</p>
+      </div>
+      <div class="faq-item">
+        <p class="q">É campanha ou tem fim?</p>
+        <p class="a">Tem fim. É uma história fechada, contada em duas sessões, com desfecho definido pelo que a mesa escolher fazer. Ninguém sai sem final.</p>
+      </div>
+      <div class="faq-item">
+        <p class="q">E se eu não puder ir a uma das duas sessões?</p>
+        <p class="a">Me avise assim que souber. As datas são combinadas em conjunto justamente para isso, e a mesa aguenta rodar com um lugar vazio se precisar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fio-veu"><div class="solid"></div><div class="dots"></div></div>
+
+<!-- ==================== DOBRA 8 · CTA ==================== -->
+<section class="section" id="contato">
+  <div class="section-inner narrow">
+    <div class="cta-final">
+      <div class="eyebrow center">O trem parte de qualquer jeito</div>
+      <h2>Guarde o seu lugar</h2>
+      <p class="lede">Me diga que topa e eu te mando ficha, data e endereço. A conta vence na sexta.</p>
+
+      <div class="cta-edit-box">
+        Você vai precisar de internet estável, fone sem ruído, ambiente silencioso e Discord.<br>Me avisa se tiver interesse.
+      </div>
+
+      <div class="btn-row" style="justify-content:center;">
+        <span class="btn primary" style="cursor:default;">Discord: carlos.withe</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fio-veu"><div class="solid"></div><div class="dots"></div></div>
+  <p>Expresso Zarya · A Última Viagem da Chama<br>Sistema próprio de Tags e Dados de Ação/Risco, com base no Freeform Universal</p>
+</footer>
+
+<!-- ==================== EDITOR DE IMAGENS ==================== -->
+<button class="editor-toggle" id="btnEditor" type="button">✎ Modo edição</button>
+<div class="editor-panel">
+  <p>Clique em qualquer espaço de imagem para enviar um arquivo do seu computador. Quando terminar, baixe o site pronto para publicar.</p>
+  <button class="btn" id="btnBaixar" type="button">Baixar site com imagens</button>
+</div>
+
+<script>
+(function(){
+
+  /* ---------- espaços de imagem ---------- */
+  document.querySelectorAll('.img-slot').forEach(function(slot){
+    var btn = slot.querySelector('.img-slot-upload-btn');
+    var input = slot.querySelector('input[type=file]');
+    var removeBtn = slot.querySelector('.img-slot-remove');
+    var copyBtn = slot.querySelector('.img-slot-copy');
+
+    if(btn && input){
+      btn.addEventListener('click', function(){ input.click(); });
+    }
+    if(input){
+      input.addEventListener('change', function(e){
+        var file = e.target.files[0];
+        if(!file) return;
+        var reader = new FileReader();
+        reader.onload = function(ev){
+          slot.style.backgroundImage = 'url(' + ev.target.result + ')';
+          slot.classList.add('has-image');
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    if(removeBtn){
+      removeBtn.addEventListener('click', function(ev){
+        ev.stopPropagation();
+        slot.style.backgroundImage = '';
+        slot.classList.remove('has-image');
+        if(input) input.value = '';
+      });
+    }
+    if(copyBtn){
+      copyBtn.addEventListener('click', function(ev){
+        ev.stopPropagation();
+        var promptEl = slot.querySelector('.img-slot-prompt');
+        if(promptEl && navigator.clipboard){
+          navigator.clipboard.writeText(promptEl.textContent.trim());
+          copyBtn.textContent = 'copiado!';
+          setTimeout(function(){ copyBtn.textContent = 'copiar prompt'; }, 1500);
+        }
+      });
+    }
+  });
+
+  /* ---------- modo edição ---------- */
+  var btnEditor = document.getElementById('btnEditor');
+  if(btnEditor){
+    btnEditor.addEventListener('click', function(){
+      document.body.classList.toggle('edit-mode');
+    });
+  }
+
+  /* ---------- exportar site com imagens (sem o modo edição) ---------- */
+  var btnBaixar = document.getElementById('btnBaixar');
+  if(btnBaixar){
+    btnBaixar.addEventListener('click', function(){
+      var wasEditing = document.body.classList.contains('edit-mode');
+      document.body.classList.remove('edit-mode');
+
+      var clone = document.documentElement.cloneNode(true);
+
+      var cloneToggle = clone.querySelector('#btnEditor');
+      if(cloneToggle) cloneToggle.remove();
+      var clonePanel = clone.querySelector('.editor-panel');
+      if(clonePanel) clonePanel.remove();
+      clone.querySelectorAll('.img-slot-editor').forEach(function(el){ el.remove(); });
+      var cloneBody = clone.querySelector('body');
+      if(cloneBody) cloneBody.classList.remove('edit-mode');
+
+      if(wasEditing) document.body.classList.add('edit-mode');
+
+      var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+      var blob = new Blob([html], {type:'text/html'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'expresso-zarya-site.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  /* ---------- slider com passador ---------- */
+  document.querySelectorAll('[data-slider]').forEach(function(root){
+    var track = root.querySelector('.slider-track');
+    var slides = Array.prototype.slice.call(track.children);
+    var dotsWrap = root.querySelector('.slider-dots');
+    var prev = root.querySelector('[data-dir="-1"]');
+    var next = root.querySelector('[data-dir="1"]');
+    var gap = 20;
+    var index = 0;
+
+    function perView(){
+      var w = root.clientWidth;
+      if(w < 620) return 1;
+      if(w < 940) return 2;
+      return 3;
+    }
+    function maxIndex(){ return Math.max(0, slides.length - perView()); }
+
+    function buildDots(){
+      dotsWrap.innerHTML = '';
+      for(var i = 0; i <= maxIndex(); i++){
+        (function(i){
+          var d = document.createElement('button');
+          d.type = 'button';
+          d.setAttribute('aria-label', 'Ir para a posição ' + (i+1));
+          d.addEventListener('click', function(){ index = i; update(); });
+          dotsWrap.appendChild(d);
+        })(i);
+      }
+    }
+
+    function update(){
+      var pv = perView();
+      var slideW = (root.clientWidth - gap * (pv - 1)) / pv;
+      slides.forEach(function(s){ s.style.width = slideW + 'px'; });
+      if(index > maxIndex()) index = maxIndex();
+      track.style.transform = 'translateX(-' + (index * (slideW + gap)) + 'px)';
+      prev.disabled = (index <= 0);
+      next.disabled = (index >= maxIndex());
+      Array.prototype.forEach.call(dotsWrap.children, function(d, i){
+        d.setAttribute('aria-current', i === index ? 'true' : 'false');
+      });
+    }
+
+    prev.addEventListener('click', function(){ if(index > 0){ index--; update(); } });
+    next.addEventListener('click', function(){ if(index < maxIndex()){ index++; update(); } });
+
+    var lastPv = perView();
+    window.addEventListener('resize', function(){
+      if(perView() !== lastPv){ lastPv = perView(); buildDots(); }
+      update();
+    });
+
+    buildDots();
+    update();
+  });
+
+})();
+</script>
+
+</body>
+</html>

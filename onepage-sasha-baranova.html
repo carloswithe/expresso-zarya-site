@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sasha Baranova — Guia do Jogador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Lora:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noite:#0B0A10; --concreto:#1C1824; --nevoa:#8E8A99; --veu:#F6F4FA;
+  --ritual:#5B21B6; --neon:#8B5CF6; --lilas:#C9B8F0;
+  --caixa:rgba(28,24,36,.6); --fio30:rgba(142,138,153,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Lora',serif; background:var(--noite); color:var(--veu); font-size:14px; line-height:1.58;
+  background-image:radial-gradient(ellipse 55% 35% at 82% -6%,rgba(139,92,246,.14),transparent 60%);
+  padding:24px;
+}
+.mono{font-family:'Space Mono',monospace;}
+[contenteditable]{outline:none;}
+[contenteditable]:focus{background:rgba(139,92,246,.10);border-radius:2px;}
+.wrap{max-width:1000px;margin:0 auto;}
+
+.toolbar{
+  position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;
+  background:rgba(11,10,16,.92);backdrop-filter:blur(6px);
+  padding:10px 14px;margin:-24px -24px 22px;border-bottom:1px solid var(--fio30);
+}
+.toolbar .tt{font-family:'Unbounded';font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-right:auto;}
+.toolbar button{
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--concreto);color:var(--veu);border:1px solid var(--neon);padding:8px 12px;cursor:pointer;
+}
+.toolbar button:hover{background:var(--ritual);}
+
+.hero{display:flex;align-items:flex-start;gap:16px;border-bottom:2px solid var(--ritual);padding-bottom:16px;margin-bottom:20px;}
+.hero svg{width:40px;height:40px;flex:0 0 40px;margin-top:4px;}
+.hero .htxt{flex:1;}
+.hero .kicker{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--neon);text-transform:uppercase;}
+.hero h1{font-family:'Unbounded';font-weight:600;font-size:30px;letter-spacing:.06em;margin:4px 0 6px;}
+.hero .concept{font-style:italic;color:var(--lilas);font-size:15px;}
+.hero .tags-count{font-family:'Space Mono',monospace;font-size:10px;color:var(--nevoa);text-align:right;flex:0 0 auto;margin-top:6px;}
+
+.sec-tit{font-family:'Unbounded';font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--veu);
+ margin:24px 0 12px;display:flex;align-items:center;gap:10px;}
+.sec-tit::before{content:"◈";color:var(--neon);font-size:12px;}
+.fio{height:2px;margin:4px 0 16px;
+ background:linear-gradient(to right,var(--ritual) 0%,var(--neon) 55%,rgba(139,92,246,0) 100%);}
+
+.guia{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.gcard{border:1px solid var(--fio30);background:var(--caixa);padding:12px 14px;break-inside:avoid;}
+.gcard h3{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.gcard h3 .ico{font-size:13px;}
+.gcard p{font-size:13px;line-height:1.55;}
+.gcard.wide{grid-column:1 / -1;}
+.intro{border-left:3px solid var(--neon);background:var(--caixa);padding:12px 16px;margin-bottom:6px;font-size:13.5px;font-style:italic;}
+
+.tags-block{margin-bottom:8px;}
+.tags-lead{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+ color:var(--lilas);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--fio30);}
+.tag-item{display:grid;grid-template-columns:180px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--fio30);break-inside:avoid;}
+.tag-item:last-child{border-bottom:none;}
+.tag-name{display:flex;align-items:flex-start;gap:7px;}
+.tag-name .sg{font-family:'Space Mono',monospace;font-weight:700;flex:0 0 auto;}
+.tag-name.pos .sg{color:var(--neon);}
+.tag-name.neg .sg{color:var(--lilas);}
+.tag-name .nm{font-weight:700;font-size:13.5px;}
+.tag-src{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--nevoa);display:block;margin-top:2px;}
+.tag-desc{font-size:12.5px;line-height:1.5;}
+.tag-desc .quando{color:var(--lilas);}
+.tag-desc .quando b{color:var(--neon);font-weight:400;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-right:4px;}
+
+@media print{
+  body{background:#fff;color:#0B0A10;padding:0;background-image:none;font-size:11.5px;}
+  .toolbar{display:none;}
+  @page{size:A4;margin:12mm;}
+  .gcard,.intro{background:#F1EDF9;border-color:rgba(110,106,121,.35);}
+  .hero h1,.sec-tit{color:#0B0A10;}
+  .hero .concept,.tag-desc .quando,.tags-lead{color:#5B21B6;}
+  .tag-name.neg .sg{color:#5B21B6;}
+  .gcard h3{color:#5B21B6;}
+  .tag-item,.gcard{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="toolbar">
+  <span class="tt">◈ Guia do Jogador · Sasha Baranova</span>
+  <span class="mono" style="font-size:10px;color:var(--nevoa)">Clique em qualquer texto para editar</span>
+  <button onclick="window.print()">🖨 Imprimir / PDF</button>
+  <button onclick="salvar()">💾 Salvar HTML</button>
+</div>
+
+<div class="hero">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="34" fill="none" stroke="#8B5CF6" stroke-width="2"/>
+    <path d="M35 42 L65 42 L65 58 L35 58 Z" fill="none" stroke="#8B5CF6" stroke-width="2"/><line x1="50" y1="42" x2="50" y2="24" stroke="#8B5CF6" stroke-width="2"/>
+  </svg>
+  <div class="htxt">
+    <div class="kicker" contenteditable="true">Reanimada · Receptáculo · Paramédica · Nível 2</div>
+    <h1 contenteditable="true">Sasha Baranova</h1>
+    <div class="concept" contenteditable="true">A paramédica que morreu numa ambulância capotada e voltou — sem estar mais sozinha no próprio corpo.</div>
+  </div>
+  <div class="tags-count mono" contenteditable="true">9 TAGS +<br>8 TAGS −</div>
+</div>
+
+<div class="sec-tit">Como jogar Sasha</div>
+<div class="intro" contenteditable="true">Sasha é metódica, calma e fala pouco sobre si mesma. Seis anos de coabitação com algo que não é dela ensinaram-na a administrar a própria existência como quem administra um paciente crônico: com rotina, disciplina e sem drama. Interprete-a como alguém que já fez as pazes com o estranho — e que, por isso, tende a olhar sem medo para coisas que assustam os outros.</div>
+<div class="guia" contenteditable="true">
+  <div class="gcard"><h3><span class="ico">◈</span> O que ela sente</h3><p>Uma quietude estranha, quase clínica, sobre a própria condição — mas por baixo, a solidão constante de ser 'a que voltou diferente'. Sente o hóspede como uma segunda respiração: nunca sozinha, nunca totalmente só consigo mesma.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> O que ela gosta de fazer</h3><p>Rotina, procedimento, o conforto de um protocolo bem seguido. Cuidar de gente — é isso que ela sabe fazer e o que ainda a faz sentir humana. Silêncio compartilhado com alguém que não exige explicações.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> O que ela teme</h3><p>Perder mais de si mesma para o hóspede a cada uso do dom. A Fronteira Afina, e ela sabe, com precisão clínica, que cada vez sobra menos Sasha. Teme também repetir o vazio do paciente que não conseguiu salvar.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> Com o que ela se importa</h3><p>Com qualquer um que esteja sofrendo fisicamente — reflexo profissional e pessoal. Importa-se, de um jeito que poucos conseguem, com quem também carrega algo estranho por dentro — ela é a prova viva de que isso não precisa ser uma sentença.</p></div>
+  <div class="gcard wide"><h3><span class="ico">◈</span> O que a deixa com raiva</h3><p>Promessas de cura fácil demais para ser verdade a irritam — soam boas demais. Descaso com o corpo dos outros. E, silenciosamente, a ideia de que alguém possa decidir pelo destino de outro ser sem perguntar o que ele quer.</p></div>
+</div>
+
+<div class="sec-tit">As Tags da Sasha — o que são e quando usar</div>
+<div class="fio"></div>
+<div style="columns:2;column-gap:24px;" contenteditable="true">
+
+  <div class="tags-block" style="break-inside:avoid">
+    <div class="tags-lead">＋ Tags Positivas · geram dados de Ação</div>
+    <div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Paciente</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Sabe esperar o momento certo sem se precipitar. <span class="quando"><b>Quando</b> a cena recompensar cautela — esperar, observar, deixar a situação amadurecer antes de agir.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Confiável</span><span class="tag-src">Característica · Social</span></span></div>
+      <div class="tag-desc">Transmite honestidade; sua palavra vale como contrato. <span class="quando"><b>Quando</b> precisar que alguém acredite nela rapidamente, ou assumir responsabilidade por um plano.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Mãos Firmes</span><span class="tag-src">Característica · Física</span></span></div>
+      <div class="tag-desc">Precisão cirúrgica em trabalhos delicados e minuciosos. <span class="quando"><b>Quando</b> tratar um ferimento, desarmar algo delicado, qualquer tarefa que exija precisão sob pressão.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Resistente</span><span class="tag-src">Característica · Física · Nível 2</span></span></div>
+      <div class="tag-desc">Aguenta dor, fadiga, fome e ferimentos sem cair. <span class="quando"><b>Quando</b> continuar funcionando mesmo ferida ou exausta, quando qualquer outro já teria parado.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Corpo Além da Dor</span><span class="tag-src">Ancestralidade · Reanimada</span></span></div>
+      <div class="tag-desc">Um corpo morto não sente dor como um vivo, não se cansa da mesma forma. <span class="quando"><b>Quando</b> ignorar ferimentos, suportar tortura ou condições extremas, seguir em frente sem se abalar.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Já Estive do Outro Lado</span><span class="tag-src">Ancestralidade · Reanimada</span></span></div>
+      <div class="tag-desc">A morte lhe é familiar: seus sinais, segredos e habitantes. <span class="quando"><b>Quando</b> lidar com mortos-vivos, espíritos, rituais fúnebres — ou entender algo sobrenatural que ninguém mais compreende.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Âncora Estável</span><span class="tag-src">Arquétipo · Receptáculo</span></span></div>
+      <div class="tag-desc">Sua natureza dividida a torna imune a possessões e transes alheios. <span class="quando"><b>Quando</b> resistir a uma tentativa de possessão ou transe coletivo, ou ser o ponto fixo emocional quando tudo ao redor desestabiliza.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Conselho Interior</span><span class="tag-src">Arquétipo · Receptáculo · Nível 2</span></span></div>
+      <div class="tag-desc">Pode consultar o conhecimento antigo do hóspede que carrega. <span class="quando"><b>Quando</b> precisar de uma informação que só uma entidade antiga saberia — sobre portas, estados, transições.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Primeiros Socorros</span><span class="tag-src">Profissão · Paramédica</span></span></div>
+      <div class="tag-desc">Anos de emergência: estabilização em campo, resgate sob pressão. <span class="quando"><b>Quando</b> tratar um ferido rapidamente, estabilizar alguém à beira da morte, agir numa crise médica.</span></div>
+    </div>
+  </div>
+
+  <div class="tags-block" style="break-inside:avoid">
+    <div class="tags-lead">− Tags Negativas · geram dados de Risco</div>
+    <div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Pessimista</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Só enxerga o que pode dar errado; desanima a si e aos outros. <span class="quando"><b>Risco quando</b> a cena precisar de esperança ou otimismo para funcionar.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Forasteiro Eterno</span><span class="tag-src">Característica · Social</span></span></div>
+      <div class="tag-desc">Nunca pertence; costumes locais sempre lhe escapam. <span class="quando"><b>Risco quando</b> precisar se encaixar rápido num grupo social, entender uma etiqueta local, parecer 'normal'.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Movimentos Rígidos</span><span class="tag-src">Característica · Física</span></span></div>
+      <div class="tag-desc">Corpo duro e travado; flexibilidade e contorção, jamais. <span class="quando"><b>Risco quando</b> precisar de agilidade, contorção ou movimentos flexíveis.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Carne que Não Cura</span><span class="tag-src">Ancestralidade · Reanimada</span></span></div>
+      <div class="tag-desc">Seu corpo não se regenera; danos exigem remendos e manutenção. <span class="quando"><b>Risco quando</b> o tempo passar sem tratamento adequado — ferimentos dela pioram ou não fecham sozinhos.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Cheiro da Sepultura</span><span class="tag-src">Ancestralidade · Reanimada</span></span></div>
+      <div class="tag-desc">A morte está estampada nela: palidez, rigidez, um odor sutil. <span class="quando"><b>Risco quando</b> precisar parecer viva e normal diante de estranhos.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">A Fronteira Afina</span><span class="tag-src">Arquétipo · Receptáculo</span></span></div>
+      <div class="tag-desc">Cada vez que usa o hóspede, sobra menos dela mesma. <span class="quando"><b>Risco quando</b> usar Conselho Interior com frequência — o mestre pode cobrar isso ao final da aventura.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Fala em Duas Vozes</span><span class="tag-src">Arquétipo · Receptáculo · Nível 2</span></span></div>
+      <div class="tag-desc">Sob pressão extrema, a voz do hóspede escapa junto com a dela. <span class="quando"><b>Risco quando</b> a cena for de estresse alto — o grupo (ou alguém por perto) pode notar a segunda voz saindo.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">O Paciente que Perdeu</span><span class="tag-src">Trauma</span></span></div>
+      <div class="tag-desc">A lembrança de mãos que tremeram e não foram rápidas o bastante. <span class="quando"><b>Risco quando</b> a cena envolver cuidar de um ferido grave — o medo de falhar de novo pesa na rolagem.</span></div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<script>
+function salvar(){
+  const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'onepage-sasha-baranova.html';
+  a.click();
+}
+</script>
+</body>
+</html>

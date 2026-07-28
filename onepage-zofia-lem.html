@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zofia Lem — Guia do Jogador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Lora:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noite:#0B0A10; --concreto:#1C1824; --nevoa:#8E8A99; --veu:#F6F4FA;
+  --ritual:#5B21B6; --neon:#8B5CF6; --lilas:#C9B8F0;
+  --caixa:rgba(28,24,36,.6); --fio30:rgba(142,138,153,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Lora',serif; background:var(--noite); color:var(--veu); font-size:14px; line-height:1.58;
+  background-image:radial-gradient(ellipse 55% 35% at 82% -6%,rgba(139,92,246,.14),transparent 60%);
+  padding:24px;
+}
+.mono{font-family:'Space Mono',monospace;}
+[contenteditable]{outline:none;}
+[contenteditable]:focus{background:rgba(139,92,246,.10);border-radius:2px;}
+.wrap{max-width:1000px;margin:0 auto;}
+
+.toolbar{
+  position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;
+  background:rgba(11,10,16,.92);backdrop-filter:blur(6px);
+  padding:10px 14px;margin:-24px -24px 22px;border-bottom:1px solid var(--fio30);
+}
+.toolbar .tt{font-family:'Unbounded';font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-right:auto;}
+.toolbar button{
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--concreto);color:var(--veu);border:1px solid var(--neon);padding:8px 12px;cursor:pointer;
+}
+.toolbar button:hover{background:var(--ritual);}
+
+.hero{display:flex;align-items:flex-start;gap:16px;border-bottom:2px solid var(--ritual);padding-bottom:16px;margin-bottom:20px;}
+.hero svg{width:40px;height:40px;flex:0 0 40px;margin-top:4px;}
+.hero .htxt{flex:1;}
+.hero .kicker{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--neon);text-transform:uppercase;}
+.hero h1{font-family:'Unbounded';font-weight:600;font-size:30px;letter-spacing:.06em;margin:4px 0 6px;}
+.hero .concept{font-style:italic;color:var(--lilas);font-size:15px;}
+.hero .tags-count{font-family:'Space Mono',monospace;font-size:10px;color:var(--nevoa);text-align:right;flex:0 0 auto;margin-top:6px;}
+
+.sec-tit{font-family:'Unbounded';font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--veu);
+ margin:24px 0 12px;display:flex;align-items:center;gap:10px;}
+.sec-tit::before{content:"◈";color:var(--neon);font-size:12px;}
+.fio{height:2px;margin:4px 0 16px;
+ background:linear-gradient(to right,var(--ritual) 0%,var(--neon) 55%,rgba(139,92,246,0) 100%);}
+
+.guia{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.gcard{border:1px solid var(--fio30);background:var(--caixa);padding:12px 14px;break-inside:avoid;}
+.gcard h3{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.gcard h3 .ico{font-size:13px;}
+.gcard p{font-size:13px;line-height:1.55;}
+.gcard.wide{grid-column:1 / -1;}
+.intro{border-left:3px solid var(--neon);background:var(--caixa);padding:12px 16px;margin-bottom:6px;font-size:13.5px;font-style:italic;}
+
+.tags-block{margin-bottom:8px;}
+.tags-lead{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+ color:var(--lilas);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--fio30);}
+.tag-item{display:grid;grid-template-columns:180px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--fio30);break-inside:avoid;}
+.tag-item:last-child{border-bottom:none;}
+.tag-name{display:flex;align-items:flex-start;gap:7px;}
+.tag-name .sg{font-family:'Space Mono',monospace;font-weight:700;flex:0 0 auto;}
+.tag-name.pos .sg{color:var(--neon);}
+.tag-name.neg .sg{color:var(--lilas);}
+.tag-name .nm{font-weight:700;font-size:13.5px;}
+.tag-src{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--nevoa);display:block;margin-top:2px;}
+.tag-desc{font-size:12.5px;line-height:1.5;}
+.tag-desc .quando{color:var(--lilas);}
+.tag-desc .quando b{color:var(--neon);font-weight:400;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-right:4px;}
+
+@media print{
+  body{background:#fff;color:#0B0A10;padding:0;background-image:none;font-size:11.5px;}
+  .toolbar{display:none;}
+  @page{size:A4;margin:12mm;}
+  .gcard,.intro{background:#F1EDF9;border-color:rgba(110,106,121,.35);}
+  .hero h1,.sec-tit{color:#0B0A10;}
+  .hero .concept,.tag-desc .quando,.tags-lead{color:#5B21B6;}
+  .tag-name.neg .sg{color:#5B21B6;}
+  .gcard h3{color:#5B21B6;}
+  .tag-item,.gcard{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="toolbar">
+  <span class="tt">◈ Guia do Jogador · Zofia Lem</span>
+  <span class="mono" style="font-size:10px;color:var(--nevoa)">Clique em qualquer texto para editar</span>
+  <button onclick="window.print()">🖨 Imprimir / PDF</button>
+  <button onclick="salvar()">💾 Salvar HTML</button>
+</div>
+
+<div class="hero">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="34" fill="none" stroke="#8B5CF6" stroke-width="2"/>
+    <path d="M50 22 L64 50 L50 78 L36 50 Z" fill="none" stroke="#8B5CF6" stroke-width="2"/><circle cx="50" cy="50" r="6" fill="none" stroke="#8B5CF6" stroke-width="2"/>
+  </svg>
+  <div class="htxt">
+    <div class="kicker" contenteditable="true">Férica · Oráculo · Vigarista · Nível 2</div>
+    <h1 contenteditable="true">Zofia Lem</h1>
+    <div class="concept" contenteditable="true">A batedora de carteiras que roubou a carteira errada — e leu, ao tocá-la, mais do que devia saber.</div>
+  </div>
+  <div class="tags-count mono" contenteditable="true">9 TAGS +<br>8 TAGS −</div>
+</div>
+
+<div class="sec-tit">Como jogar Zofia</div>
+<div class="intro" contenteditable="true">Zofia fala rápido, sorri fácil e nunca fica parada muito tempo num lugar. É produto de um orfanato que não perdoava fraqueza, e aprendeu cedo que a melhor defesa é ser mais esperta que todo mundo na sala. Interprete-a como alguém genuinamente calorosa por baixo da lábia — mas que também não consegue, literalmente, mentir de frente. Isso a torna uma vigarista trágica e engraçada: mestra da meia-verdade, incapaz da mentira redonda.</div>
+<div class="guia" contenteditable="true">
+  <div class="gcard"><h3><span class="ico">◈</span> O que ela sente</h3><p>Um formigamento quase físico de curiosidade diante de qualquer coisa trancada, guardada ou proibida. E, sempre por perto, o medo antigo de ficar sem saída — o pânico surdo de quem já dormiu em lugares sem porta.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> O que ela gosta de fazer</h3><p>Descobrir o que os outros escondem. Um bom golpe bem executado. Ganhar a confiança de alguém rápido demais para ser justo. Objetos com história — ela não rouba por ganância, rouba porque quer <em>saber</em>.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> O que ela teme</h3><p>Ser presa — literalmente, numa cela, ou figuradamente, numa mentira que não consegue sustentar. Teme também o próprio dom: cada leitura por toque pode mostrar algo que ela não estava pronta para ver.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> Com o que ela se importa</h3><p>Com quem cresceu como ela — reconhece na hora o jeito de testar adultos antes de confiar, a desconfiança de quem aprendeu cedo demais a se virar sozinho. Zofia se importa fundo com quem teve uma infância dura.</p></div>
+  <div class="gcard wide"><h3><span class="ico">◈</span> O que a deixa com raiva</h3><p>Adultos que abandonam ou usam crianças. Gente rica demonstrando que dinheiro compra qualquer coisa — inclusive pessoas. E, principalmente, ser chamada de mentirosa: ela pode enganar, mas o que sai da boca dela é sempre, tecnicamente, verdade.</p></div>
+</div>
+
+<div class="sec-tit">As Tags da Zofia — o que são e quando usar</div>
+<div class="fio"></div>
+<div style="columns:2;column-gap:24px;" contenteditable="true">
+
+  <div class="tags-block" style="break-inside:avoid">
+    <div class="tags-lead">＋ Tags Positivas · geram dados de Ação</div>
+    <div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Intuitivo</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Sente quando algo está errado antes de saber explicar por quê. <span class="quando"><b>Quando</b> perceber que uma situação é uma armadilha, ou que alguém não é quem diz ser, mesmo sem provas.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Lábia Rápida</span><span class="tag-src">Característica · Social</span></span></div>
+      <div class="tag-desc">Convence, enrola e escapa de situações na base da conversa. <span class="quando"><b>Quando</b> sair de uma enrascada falando, desviar um assunto perigoso, ganhar tempo.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Ágil</span><span class="tag-src">Característica · Física</span></span></div>
+      <div class="tag-desc">Movimentos rápidos e precisos; esquiva-se com naturalidade. <span class="quando"><b>Quando</b> fugir, escalar, se equilibrar, escapar de uma mão que tenta agarrá-la.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Leitor de Pessoas</span><span class="tag-src">Característica · Mental · Nível 2</span></span></div>
+      <div class="tag-desc">Percebe intenções, mentiras e emoções escondidas nos outros. <span class="quando"><b>Quando</b> avaliar se alguém é confiável antes de agir, ou notar o blefe de um adversário.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Glamour</span><span class="tag-src">Ancestralidade · Férica</span></span></div>
+      <div class="tag-desc">O poder de encantar percepções: parecer outra coisa, distrair, ofuscar. <span class="quando"><b>Quando</b> criar uma ilusão pequena, disfarçar a aparência, desviar a atenção de alguém.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Passos Entre Véus</span><span class="tag-src">Ancestralidade · Férica</span></span></div>
+      <div class="tag-desc">Conhece atalhos do mundo: frestas, limiares, caminhos que ninguém mais vê. <span class="quando"><b>Quando</b> infiltrar-se em um lugar fechado, encontrar uma rota de fuga que ninguém previu.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Psicometria</span><span class="tag-src">Arquétipo · Oráculo</span></span></div>
+      <div class="tag-desc">Ao tocar um objeto, lê fragmentos do passado dele. <span class="quando"><b>Quando</b> furtar e ler um objeto de alguém suspeito — descobrir a verdade escondida por trás dele.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Brecha na Névoa</span><span class="tag-src">Arquétipo · Oráculo · Nível 2</span></span></div>
+      <div class="tag-desc">Enxerga através de ilusões, disfarces e mentiras ativas. <span class="quando"><b>Quando</b> perceber que alguém está fingindo ser quem não é, ou furar um blefe sobrenatural.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Golpes e Disfarces</span><span class="tag-src">Profissão · Vigarista</span></span></div>
+      <div class="tag-desc">Anos de rua: personagens, confiança rápida, sumir antes da conta. <span class="quando"><b>Quando</b> assumir uma identidade falsa, ganhar a confiança de um estranho, escapar de uma cobrança.</span></div>
+    </div>
+  </div>
+
+  <div class="tags-block" style="break-inside:avoid">
+    <div class="tags-lead">− Tags Negativas · geram dados de Risco</div>
+    <div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Impulsivo</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Age antes de pensar, mesmo quando pensar era essencial. <span class="quando"><b>Risco quando</b> a cena pedir paciência, planejamento, ou esperar o momento certo.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Má Reputação</span><span class="tag-src">Característica · Social</span></span></div>
+      <div class="tag-desc">Seu nome chega antes dela — e não é elogio. <span class="quando"><b>Risco quando</b> encontrar alguém que já ouviu falar dela, ou tentar parecer confiável a quem checa referências.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Franzino</span><span class="tag-src">Característica · Física</span></span></div>
+      <div class="tag-desc">Pouca força; tarefas braçais a superam. <span class="quando"><b>Risco quando</b> precisar de força bruta — arrombar, carregar, vencer um confronto físico direto.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Alergia ao Ferro Frio</span><span class="tag-src">Ancestralidade · Férica</span></span></div>
+      <div class="tag-desc">O ferro queima sua pele e desfaz seus encantos. <span class="quando"><b>Risco quando</b> tocar ferro exposto — grades, ferramentas, estruturas metálicas comuns no cotidiano.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Incapaz de Mentir</span><span class="tag-src">Ancestralidade · Férica</span></span></div>
+      <div class="tag-desc">Sua língua não forma mentiras diretas; só meias-verdades e omissões. <span class="quando"><b>Risco quando</b> precisar mentir sem rodeios sob interrogatório direto — ela literalmente não consegue.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Toque Perigoso</span><span class="tag-src">Arquétipo · Oráculo</span></span></div>
+      <div class="tag-desc">Cada leitura por toque tem um custo — visões que a atordoam ou a expõem. <span class="quando"><b>Risco quando</b> usar Psicometria: role o risco de ficar incapacitada por minutos, ou atrair atenção indesejada.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Visões Involuntárias</span><span class="tag-src">Arquétipo · Oráculo · Nível 2</span></span></div>
+      <div class="tag-desc">O dom a invade sem aviso, mesmo sem ela querer. <span class="quando"><b>Risco quando</b> estiver perto de um objeto ou lugar carregado — a cena pode forçar uma visão na pior hora.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Infância em Orfanato Cruel</span><span class="tag-src">Trauma</span></span></div>
+      <div class="tag-desc">Instituições, filas, dormitórios coletivos — lugares que ecoam o passado. <span class="quando"><b>Risco quando</b> a cena envolver orfanatos, autoridade fria, ou crianças abandonadas.</span></div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<script>
+function salvar(){
+  const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'onepage-zofia-lem.html';
+  a.click();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomasz Reiner — Guia do Jogador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Lora:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noite:#0B0A10; --concreto:#1C1824; --nevoa:#8E8A99; --veu:#F6F4FA;
+  --ritual:#5B21B6; --neon:#8B5CF6; --lilas:#C9B8F0;
+  --caixa:rgba(28,24,36,.6); --fio30:rgba(142,138,153,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Lora',serif; background:var(--noite); color:var(--veu); font-size:14px; line-height:1.58;
+  background-image:radial-gradient(ellipse 55% 35% at 82% -6%,rgba(139,92,246,.14),transparent 60%);
+  padding:24px;
+}
+.mono{font-family:'Space Mono',monospace;}
+[contenteditable]{outline:none;}
+[contenteditable]:focus{background:rgba(139,92,246,.10);border-radius:2px;}
+.wrap{max-width:1000px;margin:0 auto;}
+
+.toolbar{
+  position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;
+  background:rgba(11,10,16,.92);backdrop-filter:blur(6px);
+  padding:10px 14px;margin:-24px -24px 22px;border-bottom:1px solid var(--fio30);
+}
+.toolbar .tt{font-family:'Unbounded';font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-right:auto;}
+.toolbar button{
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--concreto);color:var(--veu);border:1px solid var(--neon);padding:8px 12px;cursor:pointer;
+}
+.toolbar button:hover{background:var(--ritual);}
+
+.hero{display:flex;align-items:flex-start;gap:16px;border-bottom:2px solid var(--ritual);padding-bottom:16px;margin-bottom:20px;}
+.hero svg{width:40px;height:40px;flex:0 0 40px;margin-top:4px;}
+.hero .htxt{flex:1;}
+.hero .kicker{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--neon);text-transform:uppercase;}
+.hero h1{font-family:'Unbounded';font-weight:600;font-size:30px;letter-spacing:.06em;margin:4px 0 6px;}
+.hero .concept{font-style:italic;color:var(--lilas);font-size:15px;}
+.hero .tags-count{font-family:'Space Mono',monospace;font-size:10px;color:var(--nevoa);text-align:right;flex:0 0 auto;margin-top:6px;}
+
+.sec-tit{font-family:'Unbounded';font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--veu);
+ margin:24px 0 12px;display:flex;align-items:center;gap:10px;}
+.sec-tit::before{content:"◈";color:var(--neon);font-size:12px;}
+.fio{height:2px;margin:4px 0 16px;
+ background:linear-gradient(to right,var(--ritual) 0%,var(--neon) 55%,rgba(139,92,246,0) 100%);}
+
+.guia{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.gcard{border:1px solid var(--fio30);background:var(--caixa);padding:12px 14px;break-inside:avoid;}
+.gcard h3{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.gcard h3 .ico{font-size:13px;}
+.gcard p{font-size:13px;line-height:1.55;}
+.gcard.wide{grid-column:1 / -1;}
+.intro{border-left:3px solid var(--neon);background:var(--caixa);padding:12px 16px;margin-bottom:6px;font-size:13.5px;font-style:italic;}
+
+.tags-block{margin-bottom:8px;}
+.tags-lead{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+ color:var(--lilas);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--fio30);}
+.tag-item{display:grid;grid-template-columns:180px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--fio30);break-inside:avoid;}
+.tag-item:last-child{border-bottom:none;}
+.tag-name{display:flex;align-items:flex-start;gap:7px;}
+.tag-name .sg{font-family:'Space Mono',monospace;font-weight:700;flex:0 0 auto;}
+.tag-name.pos .sg{color:var(--neon);}
+.tag-name.neg .sg{color:var(--lilas);}
+.tag-name .nm{font-weight:700;font-size:13.5px;}
+.tag-src{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--nevoa);display:block;margin-top:2px;}
+.tag-desc{font-size:12.5px;line-height:1.5;}
+.tag-desc .quando{color:var(--lilas);}
+.tag-desc .quando b{color:var(--neon);font-weight:400;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-right:4px;}
+
+@media print{
+  body{background:#fff;color:#0B0A10;padding:0;background-image:none;font-size:11.5px;}
+  .toolbar{display:none;}
+  @page{size:A4;margin:12mm;}
+  .gcard,.intro{background:#F1EDF9;border-color:rgba(110,106,121,.35);}
+  .hero h1,.sec-tit{color:#0B0A10;}
+  .hero .concept,.tag-desc .quando,.tags-lead{color:#5B21B6;}
+  .tag-name.neg .sg{color:#5B21B6;}
+  .gcard h3{color:#5B21B6;}
+  .tag-item,.gcard{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="toolbar">
+  <span class="tt">◈ Guia do Jogador · Tomasz Reiner</span>
+  <span class="mono" style="font-size:10px;color:var(--nevoa)">Clique em qualquer texto para editar</span>
+  <button onclick="window.print()">🖨 Imprimir / PDF</button>
+  <button onclick="salvar()">💾 Salvar HTML</button>
+</div>
+
+<div class="hero">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="34" fill="none" stroke="#8B5CF6" stroke-width="2"/>
+    <path d="M35 30 L65 30 L50 70 Z" fill="none" stroke="#8B5CF6" stroke-width="2"/><line x1="50" y1="30" x2="50" y2="16" stroke="#8B5CF6" stroke-width="2"/>
+  </svg>
+  <div class="htxt">
+    <div class="kicker" contenteditable="true">Ínfero · Maculado · Advogado · Nível 2</div>
+    <h1 contenteditable="true">Tomasz Reiner</h1>
+    <div class="concept" contenteditable="true">O advogado infernal que assinou em branco quando a firma afundava — e ainda não sabe tudo que aquele papel diz.</div>
+  </div>
+  <div class="tags-count mono" contenteditable="true">9 TAGS +<br>8 TAGS −</div>
+</div>
+
+<div class="sec-tit">Como jogar Tomasz</div>
+<div class="intro" contenteditable="true">Tomasz entra em qualquer sala como se já a tivesse comprado. É arrogância de sobrevivente: ele afundou uma vez, publicamente, e reconstruiu a fachada tijolo por tijolo. Interprete-o como alguém brilhante, elegante e genuinamente assustado por dentro — o sangue infernal deu a ele poder de barganha, mas também um estigma que ele tenta, e falha, em esconder. Cada promessa que ele faz é um contrato: escolha as palavras dele com cuidado.</div>
+<div class="guia" contenteditable="true">
+  <div class="gcard"><h3><span class="ico">◈</span> O que ele sente</h3><p>Um cálculo constante de risco e vantagem rodando por trás dos olhos — até nas conversas mais simples. E, por baixo disso, o pavor frio de que a próxima cláusula oculta do próprio contrato seja pior que a última.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> O que ele gosta de fazer</h3><p>Encontrar a brecha que ninguém viu. Vencer uma negociação com elegância, não com força. Ser reconhecido como o mais inteligente da sala — e, secretamente, ser útil a alguém sem cobrar nada em troca, coisa que ele quase nunca se permite.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> O que ele teme</h3><p>Assinar algo sem ler todas as cláusulas — de novo. Ser exposto como o que é (Estigma Infernal) diante de gente que ele precisa impressionar. E, no fundo, repetir a falência: arrastar outras pessoas com ele quando cair.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> Com o que ele se importa</h3><p>Com a própria palavra, por mais que ele a use como arma — porque no fundo dele a Palavra Dada é sobrenaturalmente vinculante, e ele sabe o preço de quebrá-la. Importa-se, também, com provar que ainda é bom no que faz.</p></div>
+  <div class="gcard wide"><h3><span class="ico">◈</span> O que o deixa com raiva</h3><p>Contratos mal redigidos usados contra os fracos — vê isso como falta de profissionalismo, não como crime. Ser subestimado. E gente que consegue documentos comprometedores que deveriam ser sigilosos — isso o tira do sério.</p></div>
+</div>
+
+<div class="sec-tit">As Tags do Tomasz — o que são e quando usar</div>
+<div class="fio"></div>
+<div style="columns:2;column-gap:24px;" contenteditable="true">
+
+  <div class="tags-block" style="break-inside:avoid">
+    <div class="tags-lead">＋ Tags Positivas · geram dados de Ação</div>
+    <div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Leitor de Pessoas</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Percebe intenções, mentiras e emoções escondidas nos outros. <span class="quando"><b>Quando</b> negociar, avaliar um adversário antes de falar, sentir o ponto fraco de um argumento.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Negociador</span><span class="tag-src">Característica · Social</span></span></div>
+      <div class="tag-desc">Consegue acordos, descontos e trocas vantajosas. <span class="quando"><b>Quando</b> fechar um trato, mediar um impasse entre o grupo e alguém, comprar tempo com uma oferta.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Memória Prodigiosa</span><span class="tag-src">Característica · Mental · Nível 2</span></span></div>
+      <div class="tag-desc">Lembra com precisão de rostos, textos, mapas e conversas antigas. <span class="quando"><b>Quando</b> citar de cor uma cláusula, reconhecer um rosto ou uma frase ouvida antes.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Mentiroso Convincente</span><span class="tag-src">Característica · Social · Nível 2</span></span></div>
+      <div class="tag-desc">Sustenta uma farsa sem vacilar, olho no olho. <span class="quando"><b>Quando</b> mentir sob pressão direta, sustentar uma identidade falsa, blefar num confronto verbal.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Língua de Enxofre</span><span class="tag-src">Ancestralidade · Ínfero</span></span></div>
+      <div class="tag-desc">O dom infernal da barganha, da tentação e da palavra certa na hora certa. <span class="quando"><b>Quando</b> tentar seduzir com uma oferta, farejar o que alguém realmente deseja por trás do pedido.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Carne do Abismo</span><span class="tag-src">Ancestralidade · Ínfero</span></span></div>
+      <div class="tag-desc">Fogo, calor e energias destrutivas pouco o afetam. <span class="quando"><b>Quando</b> resistir a chamas, calor extremo, ou qualquer energia destrutiva incomum.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Escrita de Contrato</span><span class="tag-src">Arquétipo · Maculado</span></span></div>
+      <div class="tag-desc">Redige acordos com peso quase sobrenatural — palavras que prendem. <span class="quando"><b>Quando</b> formalizar um trato importante, redigir um acordo com peso real, tentar vincular alguém — ou algo — à própria palavra.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Colheita de Segredos</span><span class="tag-src">Arquétipo · Maculado · Nível 2</span></span></div>
+      <div class="tag-desc">Arranca confissões e verdades verdadeiras em troca de pequenas concessões. <span class="quando"><b>Quando</b> interrogar alguém oferecendo algo em troca da verdade.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Contratos e Brechas</span><span class="tag-src">Profissão · Advogado</span></span></div>
+      <div class="tag-desc">Anos lendo letras miúdas: leis, direitos, cláusulas escondidas. <span class="quando"><b>Quando</b> analisar um documento, encontrar uma brecha legal ou lógica, argumentar formalmente.</span></div>
+    </div>
+  </div>
+
+  <div class="tags-block" style="break-inside:avoid">
+    <div class="tags-lead">− Tags Negativas · geram dados de Risco</div>
+    <div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Arrogante</span><span class="tag-src">Característica · Social</span></span></div>
+      <div class="tag-desc">Trata os outros como inferiores e faz questão de mostrar. <span class="quando"><b>Risco quando</b> precisar pedir ajuda, admitir erro publicamente, ou tratar alguém como igual.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Obsessivo</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Fixa-se numa ideia e não consegue soltá-la, mesmo que o prejudique. <span class="quando"><b>Risco quando</b> a cena pedir que ele largue um detalhe e siga em frente.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Fôlego Curto</span><span class="tag-src">Característica · Física</span></span></div>
+      <div class="tag-desc">Cansa rápido; esforços físicos longos o derrubam. <span class="quando"><b>Risco quando</b> correr, lutar por muito tempo, ou qualquer esforço físico prolongado.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Estigma Infernal</span><span class="tag-src">Ancestralidade · Ínfero</span></span></div>
+      <div class="tag-desc">Sua natureza transparece: aparência, aura ou presença perturbadora. <span class="quando"><b>Risco quando</b> tentar inspirar confiança imediata, ou lidar com gente devota e desconfiada.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Preso à Palavra Dada</span><span class="tag-src">Ancestralidade · Ínfero</span></span></div>
+      <div class="tag-desc">Acordos e promessas o amarram de forma sobrenatural. <span class="quando"><b>Risco quando</b> tentar quebrar, contornar ou mentir sobre um pacto que ele mesmo aceitou.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Cláusulas Ocultas</span><span class="tag-src">Arquétipo · Maculado</span></span></div>
+      <div class="tag-desc">Nem ele conhece os termos completos do próprio contrato com seu credor. <span class="quando"><b>Risco quando</b> o mestre pode invocar uma condição surpresa do contrato dele em qualquer momento de tensão.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">A Conta Sempre Chega</span><span class="tag-src">Arquétipo · Maculado · Nível 2</span></span></div>
+      <div class="tag-desc">Todo uso de seus poderes gera uma dívida que cobra depois. <span class="quando"><b>Risco quando</b> usar Escrita de Contrato ou Colheita de Segredos — o benefício vem, mas o custo também vem.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Falência que Arrastou Todos</span><span class="tag-src">Trauma</span></span></div>
+      <div class="tag-desc">A lembrança de ter afundado e levado outros junto. <span class="quando"><b>Risco quando</b> a cena envolver dinheiro alheio, responsabilidade por um grupo, ou prestação de contas.</span></div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<script>
+function salvar(){
+  const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'onepage-tomasz-reiner.html';
+  a.click();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vera Lindqvist — Guia do Jogador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Lora:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noite:#0B0A10; --concreto:#1C1824; --nevoa:#8E8A99; --veu:#F6F4FA;
+  --ritual:#5B21B6; --neon:#8B5CF6; --lilas:#C9B8F0;
+  --caixa:rgba(28,24,36,.6); --fio30:rgba(142,138,153,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Lora',serif; background:var(--noite); color:var(--veu); font-size:14px; line-height:1.58;
+  background-image:radial-gradient(ellipse 55% 35% at 82% -6%,rgba(139,92,246,.14),transparent 60%);
+  padding:24px;
+}
+.mono{font-family:'Space Mono',monospace;}
+[contenteditable]{outline:none;}
+[contenteditable]:focus{background:rgba(139,92,246,.10);border-radius:2px;}
+.wrap{max-width:1000px;margin:0 auto;}
+
+.toolbar{
+  position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;
+  background:rgba(11,10,16,.92);backdrop-filter:blur(6px);
+  padding:10px 14px;margin:-24px -24px 22px;border-bottom:1px solid var(--fio30);
+}
+.toolbar .tt{font-family:'Unbounded';font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-right:auto;}
+.toolbar button{
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--concreto);color:var(--veu);border:1px solid var(--neon);padding:8px 12px;cursor:pointer;
+}
+.toolbar button:hover{background:var(--ritual);}
+
+.hero{display:flex;align-items:flex-start;gap:16px;border-bottom:2px solid var(--ritual);padding-bottom:16px;margin-bottom:20px;}
+.hero svg{width:40px;height:40px;flex:0 0 40px;margin-top:4px;}
+.hero .htxt{flex:1;}
+.hero .kicker{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--neon);text-transform:uppercase;}
+.hero h1{font-family:'Unbounded';font-weight:600;font-size:30px;letter-spacing:.06em;margin:4px 0 6px;}
+.hero .concept{font-style:italic;color:var(--lilas);font-size:15px;}
+.hero .tags-count{font-family:'Space Mono',monospace;font-size:10px;color:var(--nevoa);text-align:right;flex:0 0 auto;margin-top:6px;}
+
+.sec-tit{font-family:'Unbounded';font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--veu);
+ margin:24px 0 12px;display:flex;align-items:center;gap:10px;}
+.sec-tit::before{content:"◈";color:var(--neon);font-size:12px;}
+.fio{height:2px;margin:4px 0 16px;
+ background:linear-gradient(to right,var(--ritual) 0%,var(--neon) 55%,rgba(139,92,246,0) 100%);}
+
+.guia{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.gcard{border:1px solid var(--fio30);background:var(--caixa);padding:12px 14px;break-inside:avoid;}
+.gcard h3{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.gcard h3 .ico{font-size:13px;}
+.gcard p{font-size:13px;line-height:1.55;}
+.gcard.wide{grid-column:1 / -1;}
+.intro{border-left:3px solid var(--neon);background:var(--caixa);padding:12px 16px;margin-bottom:6px;font-size:13.5px;font-style:italic;}
+
+.tags-block{margin-bottom:8px;}
+.tags-lead{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+ color:var(--lilas);margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--fio30);}
+.tag-item{display:grid;grid-template-columns:180px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--fio30);break-inside:avoid;}
+.tag-item:last-child{border-bottom:none;}
+.tag-name{display:flex;align-items:flex-start;gap:7px;}
+.tag-name .sg{font-family:'Space Mono',monospace;font-weight:700;flex:0 0 auto;}
+.tag-name.pos .sg{color:var(--neon);}
+.tag-name.neg .sg{color:var(--lilas);}
+.tag-name .nm{font-weight:700;font-size:13.5px;}
+.tag-src{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--nevoa);display:block;margin-top:2px;}
+.tag-desc{font-size:12.5px;line-height:1.5;}
+.tag-desc .quando{color:var(--lilas);}
+.tag-desc .quando b{color:var(--neon);font-weight:400;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-right:4px;}
+
+@media print{
+  body{background:#fff;color:#0B0A10;padding:0;background-image:none;font-size:11.5px;}
+  .toolbar{display:none;}
+  @page{size:A4;margin:12mm;}
+  .gcard,.intro{background:#F1EDF9;border-color:rgba(110,106,121,.35);}
+  .hero h1,.sec-tit{color:#0B0A10;}
+  .hero .concept,.tag-desc .quando,.tags-lead{color:#5B21B6;}
+  .tag-name.neg .sg{color:#5B21B6;}
+  .gcard h3{color:#5B21B6;}
+  .tag-item,.gcard{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="toolbar">
+  <span class="tt">◈ Guia do Jogador · Vera Lindqvist</span>
+  <span class="mono" style="font-size:10px;color:var(--nevoa)">Clique em qualquer texto para editar</span>
+  <button onclick="window.print()">🖨 Imprimir / PDF</button>
+  <button onclick="salvar()">💾 Salvar HTML</button>
+</div>
+
+<div class="hero">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="34" fill="none" stroke="#8B5CF6" stroke-width="2"/>
+    <rect x="38" y="34" width="24" height="32" fill="none" stroke="#8B5CF6" stroke-width="2"/><line x1="38" y1="50" x2="62" y2="50" stroke="#8B5CF6" stroke-width="2"/>
+  </svg>
+  <div class="htxt">
+    <div class="kicker" contenteditable="true">Humana · Maga · Bibliotecária · Nível 2</div>
+    <h1 contenteditable="true">Vera Lindqvist</h1>
+    <div class="concept" contenteditable="true">A maior estudiosa viva do Véu — humana, cega para o oculto, sabendo tudo em teoria e sentindo nada na prática.</div>
+  </div>
+  <div class="tags-count mono" contenteditable="true">9 TAGS +<br>8 TAGS −</div>
+</div>
+
+<div class="sec-tit">Como jogar Vera</div>
+<div class="intro" contenteditable="true">Vera fala baixo, olha por cima dos óculos e tem a péssima mania de responder perguntas simples com contexto histórico demais. É gentil, paciente, e vive num desconforto elegante em qualquer situação social que não envolva livros. Interprete-a como alguém cuja coragem não é física nem social — é intelectual: ela enfrenta o desconhecido abrindo o livro errado, não empunhando uma arma.</div>
+<div class="guia" contenteditable="true">
+  <div class="gcard"><h3><span class="ico">◈</span> O que ela sente</h3><p>Uma fome constante de entender — cada mistério não resolvido é uma comichão física. E, por trás disso, o desconforto crônico de estar sempre um passo atrás fisicamente do que os outros sentem e percebem no ar.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> O que ela gosta de fazer</h3><p>Decifrar um texto que ninguém mais conseguiu ler. Corrigir uma tradução errada — sente prazer quase indecoroso nisso. Ensinar, quando alguém realmente quer aprender. Silêncio e tempo para pensar.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> O que ela teme</h3><p>Repetir o erro que a marcou: abrir a coisa errada sem saber o que estava fazendo. Teme também sua própria cegueira para o oculto — não perceber o perigo chegando até que seja tarde.</p></div>
+  <div class="gcard"><h3><span class="ico">◈</span> Com o que ela se importa</h3><p>Com a verdade factual, mesmo quando ela é inconveniente. Importa-se profundamente em corrigir uma tradução errada, sobretudo quando um erro de interpretação pode custar caro a alguém.</p></div>
+  <div class="gcard wide"><h3><span class="ico">◈</span> O que a deixa com raiva</h3><p>Dogma que se recusa a ser questionado. Gente que descarta conhecimento por preguiça de ler. E, silenciosamente, a própria limitação: ser invisível ao sobrenatural e não conseguir ajudar da forma mais óbvia quando o perigo é físico.</p></div>
+</div>
+
+<div class="sec-tit">As Tags da Vera — o que são e quando usar</div>
+<div class="fio"></div>
+<div style="columns:2;column-gap:24px;" contenteditable="true">
+
+  <div class="tags-block" style="break-inside:avoid">
+    <div class="tags-lead">＋ Tags Positivas · geram dados de Ação</div>
+    <div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Erudito</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Vasto conhecimento acumulado em livros, estudos e tradições. <span class="quando"><b>Quando</b> responder uma pergunta histórica, reconhecer uma referência antiga, situar um símbolo ou texto.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Bom Ouvinte</span><span class="tag-src">Característica · Social</span></span></div>
+      <div class="tag-desc">As pessoas se abrem com ela e revelam mais do que deviam. <span class="quando"><b>Quando</b> conversar a sós com alguém disposto a desabafar.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Disciplinado</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Mantém foco, rotina e método mesmo em tarefas longas e tediosas. <span class="quando"><b>Quando</b> pesquisar por horas, decifrar um texto extenso, seguir um processo passo a passo.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Memória Prodigiosa</span><span class="tag-src">Característica · Mental · Nível 2</span></span></div>
+      <div class="tag-desc">Lembra com precisão de rostos, textos, mapas e conversas antigas. <span class="quando"><b>Quando</b> citar de cor uma passagem lida antes, reconhecer algo visto de relance.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Adaptabilidade Impressionante</span><span class="tag-src">Ancestralidade · Humana</span></span></div>
+      <div class="tag-desc">Aprende, improvisa e se reinventa mais rápido que qualquer criatura. <span class="quando"><b>Quando</b> lidar com uma ferramenta ou situação totalmente nova, sem precedente.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Invisível ao Sobrenatural</span><span class="tag-src">Ancestralidade · Humana</span></span></div>
+      <div class="tag-desc">Rituais, sentidos místicos e criaturas que farejam magia não a notam. <span class="quando"><b>Quando</b> escapar de rastreamento místico ou de sentidos sobrenaturais tentando localizá-la.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Biblioteca Viva</span><span class="tag-src">Arquétipo · Mago</span></span></div>
+      <div class="tag-desc">Carrega o equivalente a um acervo inteiro na cabeça. <span class="quando"><b>Quando</b> decifrar textos antigos, cruzar diferentes fontes de conhecimento, montar o quadro teórico por trás de um mistério.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Leitura de Grimórios</span><span class="tag-src">Arquétipo · Mago · Nível 2</span></span></div>
+      <div class="tag-desc">Decifra textos arcanos, línguas mortas e cifras rituais. <span class="quando"><b>Quando</b> ler algo escrito em língua antiga, cifra ritual ou código esquecido.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name pos"><span class="sg">+</span><span><span class="nm">Pesquisa em Acervos</span><span class="tag-src">Profissão · Bibliotecária</span></span></div>
+      <div class="tag-desc">Décadas de catalogação, referência cruzada, pesquisa profunda. <span class="quando"><b>Quando</b> encontrar informação relevante em documentos, registros ou arquivos disponíveis.</span></div>
+    </div>
+  </div>
+
+  <div class="tags-block" style="break-inside:avoid">
+    <div class="tags-lead">− Tags Negativas · geram dados de Risco</div>
+    <div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Timidez Paralisante</span><span class="tag-src">Característica · Social</span></span></div>
+      <div class="tag-desc">Trava diante de estranhos, plateias ou figuras de autoridade. <span class="quando"><b>Risco quando</b> precisar falar em público, confrontar alguém diretamente, liderar uma conversa difícil.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Visão Fraca</span><span class="tag-src">Característica · Física</span></span></div>
+      <div class="tag-desc">Enxerga mal de longe, de perto ou no escuro. <span class="quando"><b>Risco quando</b> perceber detalhes visuais à distância ou em pouca luz.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Distraído</span><span class="tag-src">Característica · Mental</span></span></div>
+      <div class="tag-desc">Perde detalhes importantes; a mente vaga nos piores momentos. <span class="quando"><b>Risco quando</b> precisar de atenção total num momento de perigo — ela pode estar pensando em outra coisa.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Frágil Diante do Impossível</span><span class="tag-src">Ancestralidade · Humana</span></span></div>
+      <div class="tag-desc">Sem resistências especiais, o corpo humano quebra fácil. <span class="quando"><b>Risco quando</b> enfrentar diretamente força ou poder sobrenatural — ela não aguenta o mesmo castigo que os outros.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Cega para o Oculto</span><span class="tag-src">Ancestralidade · Humana</span></span></div>
+      <div class="tag-desc">Não percebe auras, ilusões e presenças sobrenaturais. <span class="quando"><b>Risco quando</b> tentar detectar algo sobrenatural por instinto — ela precisa de teoria, não de sexto sentido.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Curiosidade Proibida</span><span class="tag-src">Arquétipo · Mago</span></span></div>
+      <div class="tag-desc">Não resiste a abrir, ler ou investigar o que deveria deixar fechado. <span class="quando"><b>Risco quando</b> houver algo trancado, selado ou marcado como perigoso por perto.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Teoria Antes da Prática</span><span class="tag-src">Arquétipo · Mago · Nível 2</span></span></div>
+      <div class="tag-desc">Trava analisando quando a cena pede ação imediata. <span class="quando"><b>Risco quando</b> a cena exigir decisão rápida — ela quer mais uma fonte, mais uma confirmação, antes de agir.</span></div>
+    </div><div class="tag-item">
+      <div class="tag-name neg"><span class="sg">−</span><span><span class="nm">Viu o Que Não Devia</span><span class="tag-src">Trauma</span></span></div>
+      <div class="tag-desc">Vislumbrou o sobrenatural sem explicação — e o corpo lembra mais que a mente admite. <span class="quando"><b>Risco quando</b> a cena envolver o mesmo tipo de horror silencioso e sem explicação do seu passado.</span></div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<script>
+function salvar(){
+  const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'onepage-vera-lindqvist.html';
+  a.click();
+}
+</script>
+</body>
+</html>
